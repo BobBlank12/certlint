@@ -8,7 +8,7 @@ import subprocess
 
 os.system("clear")
 
-filenames=["es01.p12","es01.der","es01.pkcs1.key","es01.pem","es01.p7b", "es01.pkcs8.key"]
+filenames=["es01.p12","es01.der","es01.pkcs1.key","es01.pem","es01.p7b", "es01.pkcs8.key", "es01.pkcs8-encrypted.key"]
 for filename in filenames:
 
     print (f"Determining the file type of: {filename}")
@@ -34,11 +34,12 @@ for filename in filenames:
     if result == 0:
         format = "der"
 
-    #Test to see if it is a key, not a cert
+    #Test to see if it is a key, not a cert (that has no password for the key)
     #print (f"Testing if it is a key...")
-    result= subprocess.call(["openssl", "rsa", "-in", filename, "-check"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=False, timeout=3)
+    result= subprocess.call(["openssl", "rsa", "-in", filename, "-check", "-passin", "pass:"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=False, timeout=3)
     if result == 0:
         format = "key"
+
 
     #Test for P12 (that has no password for the cert)
     #print (f"Testing P12 format...")
@@ -46,7 +47,7 @@ for filename in filenames:
     if result == 0:
         format = "p12"
 
-    # NEED TO ADD A TEST HERE TO SEE FOR ENCRYPTED PRIVATE KEYS
+    # Notes on keys...
     #-----BEGIN PRIVATE KEY----- = pkcs8
     #-----BEGIN ENCRYPTED PRIVATE KEY----- pkcs8 encrypted
     #-----BEGIN RSA PRIVATE KEY----- = pkcs1
@@ -73,6 +74,10 @@ for filename in filenames:
             result= line.find("-----BEGIN RSA PRIVATE KEY-----")
             if result != -1:
                 key_type = "pkcs1"
+                break
+            result= line.find("-----BEGIN ENCRYPTED PRIVATE KEY-----")
+            if result != -1:
+                key_type = "pkcs8-encrypted"
                 break
         # End of for loop through key file
         print (f"\tThe key file appears to be in {key_type} format.")
