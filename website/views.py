@@ -154,10 +154,7 @@ def success():
                 if result != -1:
                     key_format = "pkcs1"
                     break
-                result= line.find("-----BEGIN ENCRYPTED PRIVATE KEY-----")
-                if result != -1:
-                    key_format = "pkcs8-encrypted"
-                    break
+
             # End of for loop through key file
             #print (f"\tThe key file appears to be in {key_format} format.")
         # End of key file checks
