@@ -80,8 +80,6 @@ def determine_file_format(filename, fileformat, key_type):
 # End of determine_file_format
 
 def convert_der_to_pem(filename):
-    #openssl x509 -inform der -in certificate.cer -out certificate.pem
-    #stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
     result = subprocess.call(["openssl", "x509", "-inform", "der", "-in", filename, "-out", filename + "-converted-to.pem"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=False, timeout=3)
     return(result)
 
@@ -95,12 +93,26 @@ def convert_p12_to_pem(filename):
     #
     result1 = subprocess.call(["openssl", "pkcs12", "-in", filename, "-nodes", "-nokeys", "-out", filename + "-temp.pem", "-passin", "pass:"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=False, timeout=3)
     if result1 == 0:
-        #Save JUST the node cert from the P12... if there happened to be a ca chain in it... for consistency
+        #Save JUST the node cert from the temp PEM file... if there happened to be a ca chain in the P12... for consistency
         result2 = subprocess.call(["openssl", "x509", "-in", filename + "-temp.pem", "-out", filename + "-converted-to.pem", "-passin", "pass:"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=False, timeout=3)
         os.remove(filename+"-temp.pem")
     return (result1+result2) 
 
 # End of convert_p12_to_pem
+
+def convert_p7b_to_pem(filename):
+    #
+    # This is in 2 passes... to JUST get the node cert and not the ca certs
+    #
+    # I should get the CA certs for the user out of the bundle as well... TODO.
+    #
+    #openssl pkcs7 -print_certs -in certificate.p7b -out certificate.cer
+    result1 = subprocess.call(["openssl", "pkcs7", "-print_certs", "-in", filename, "-out", filename + "-temp.pem"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=False, timeout=3)
+    if result1 == 0:
+        result2 = subprocess.call(["openssl", "x509", "-in", filename + "-temp.pem", "-out", filename + "-converted-to.pem", "-passin", "pass:"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=False, timeout=3)
+        os.remove(filename+"-temp.pem")
+    return (result1+result2) 
+# End of convert_p7b_to_pem
 
 # MAIN
 filename = sys.argv[1]
@@ -124,5 +136,21 @@ if fileformat == "p12":
         convert_p12_to_pem(filename)
     except Exception as e:
         print("Error converting P12 to PEM {:}".format(e))
+    else:
+        print(f"\tI've created a {filename}-converted.pem file for you.")
+
+if fileformat == "p7b":
+    try:
+        convert_p7b_to_pem(filename)
+    except Exception as e:
+        print("Error converting P7B to PEM {:}".format(e))
+    else:
+        print(f"\tI've created a {filename}-converted.pem file for you.")
+
+if fileformat == "p7b":
+    try:
+        convert_p7b_to_pem(filename)
+    except Exception as e:
+        print("Error converting P7B to PEM {:}".format(e))
     else:
         print(f"\tI've created a {filename}-converted.pem file for you.")
