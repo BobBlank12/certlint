@@ -2,16 +2,10 @@ import os
 import subprocess
 
 
-######################
+#filenames=["es01.p12","es01.der","es01.pkcs1.key","es01.pem","es01.p7b", "es01.pkcs8.key", "es01.pkcs8-encrypted.key"]
+#for filename in filenames:
 
-######################
-
-os.system("clear")
-
-filenames=["es01.p12","es01.der","es01.pkcs1.key","es01.pem","es01.p7b", "es01.pkcs8.key", "es01.pkcs8-encrypted.key"]
-for filename in filenames:
-
-    print (f"Determining the file type of: {filename}")
+    #print (f"Determining the file type of: {filename}")
 
     # Order matters here since P12 files also show valid keys and DER formats
     # so P12 HAS to be last in this check.
@@ -56,7 +50,7 @@ for filename in filenames:
 
     #  JKS files?
 
-    print (f"\tIt appears you've given me a file that is in {format} format.")
+    #print (f"\tIt appears you've given me a file that is in {format} format.")
 
     if format == "key":
         with open(filename) as f:
@@ -80,8 +74,8 @@ for filename in filenames:
                 key_type = "pkcs8-encrypted"
                 break
         # End of for loop through key file
-        print (f"\tThe key file appears to be in {key_type} format.")
+        #print (f"\tThe key file appears to be in {key_type} format.")
     # End of key file checks
-    print (f"")
+    #print (f"")
 # End of for loop through file list
 
