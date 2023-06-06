@@ -1,12 +1,23 @@
+{% extends "base.html" %} {% block title %}Analysis and Conversions{% endblock %} {% block content %}
 <html>
 <head>
-	<title>success</title>
+	<title>File uploaded successfully</title>
 </head>
 <body>
-	<p>File uploaded successfully</p>
-	<p>File Name: {{name}}</p>
-	<p>File format: {{fileformat}}</p>
-	<p>Key format: {{key_type}}</p>
+	{% for dict in links %}
+	<table style="width:100%">
+	<tbody>
+	{% for key, value in dict.items() %}
+	<tr>
+		<td style="width:100px"> {{ key }} </td>
+		<td style="width:100px"> {{ value | safe }} </td>
+	</tr>
+	{% endfor %}
+	</tbody>
+	</table>
+	</br></br>
+	{% endfor %}
 </body>
 </html>
-
+{% endblock %}
+	
