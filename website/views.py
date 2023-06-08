@@ -14,13 +14,20 @@ def home():
     # if request.method == 'POST': 
     return render_template("index.html")
 
+# Link to download "converted-to-pem file"
 @views.route("/uploads/<filename>-converted-to.pem", methods=['GET', 'POST'])
 def getFilePem(filename):
     return send_file(UPLOAD_FOLDER+filename+"-converted-to.pem", as_attachment=True)
 
+# Link to download "converted-to-der file"
 @views.route("/uploads/<filename>-converted-to.der", methods=['GET', 'POST'])
 def getFileDer(filename):
     return send_file(UPLOAD_FOLDER+filename+"-converted-to.der", as_attachment=True)
+
+# Link to download "ca extracted from P12 file"
+@views.route("/uploads/<filename>-extraxted-ca-certs.pem", methods=['GET', 'POST'])
+def getFileP12ca(filename):
+    return send_file(UPLOAD_FOLDER+filename+"-extraxted-ca-certs.pem", as_attachment=True)
 
 @views.route('/success', methods = ['POST'])  
 def success():  
@@ -87,6 +94,20 @@ def success():
                         f.filename+"-converted-to.pem:" : '<a href="'+UPLOAD_FOLDER+f.filename+'-converted-to.pem">'+f.filename+'-converted-to.pem</a>'
                     }
                 )
+            #Get the CAs out of the P12 file
+            try:
+                extract_ca_from_p12("website/" + UPLOAD_FOLDER+f.filename)
+            except Exception as e:
+                print("Error extracting the CA certs from the P12 file {:}".format(e))
+            else:
+                print(f"\tI've exctracted the ca certs from {f.filename} and saved into {f.filename}-extraxted-ca-certs.pem file for you.")
+                links.append(
+                    {
+                        f.filename+"-extraxted-ca-certs.pem:" : '<a href="'+UPLOAD_FOLDER+f.filename+'-extraxted-ca-certs.pem">'+f.filename+'-extraxted-ca-certs.pem</a>'
+                    }
+                )
+        
+
 
         if fileformat == "p7b":
             try:

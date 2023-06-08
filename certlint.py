@@ -241,3 +241,12 @@ def convert_p7b_to_pem(filename):
         os.remove(filename+"-temp.pem")
     return (result1+result2) 
 # End of convert_p7b_to_pem
+
+def extract_ca_from_p12(filename):
+    result = subprocess.call(["openssl", "pkcs12", "-nodes", "-cacerts", "-nokeys", "-in", filename, "-out", filename + "-extraxted-ca-certs.pem", "-passin", "pass:"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=False, timeout=3)
+    if os.path.getsize(filename + "-extraxted-ca-certs.pem") == 0:
+        os.remove(filename + "-extraxted-ca-certs.pem")
+        raise Exception("No CA certs found in " + filename + " to extract.")
+    return (result) 
+
+# End of extract_ca_from_p12
