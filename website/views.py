@@ -15,8 +15,12 @@ def home():
     return render_template("index.html")
 
 @views.route("/uploads/<filename>-converted-to.pem", methods=['GET', 'POST'])
-def getFile(filename):
+def getFilePem(filename):
     return send_file(UPLOAD_FOLDER+filename+"-converted-to.pem", as_attachment=True)
+
+@views.route("/uploads/<filename>-converted-to.der", methods=['GET', 'POST'])
+def getFileDer(filename):
+    return send_file(UPLOAD_FOLDER+filename+"-converted-to.der", as_attachment=True)
 
 @views.route('/success', methods = ['POST'])  
 def success():  
@@ -96,6 +100,19 @@ def success():
                         f.filename+"-converted-to.pem:" : '<a href="'+UPLOAD_FOLDER+f.filename+'-converted-to.pem">'+f.filename+'-converted-to.pem</a>'
                     }
                 )
+
+        # At this point I should have a clean PEM file I can create all of the other formats from...
+        try:
+            convert_pem_to_der("website/" + UPLOAD_FOLDER+f.filename)
+        except Exception as e:
+            print("Error converting PEM to DER {:}".format(e))
+        else:
+            #print(f"\tI've created a {f.filename}-converted-to.der file for you.")
+            links.append(
+                {
+                    f.filename+"-converted-to.der:" : '<a href="'+UPLOAD_FOLDER+f.filename+'-converted-to.der">'+f.filename+'-converted-to.der</a>'
+                }
+            )
 
         # Get the cert details from the converted pem file
         certdetails = get_pem_cert_details("website/" + UPLOAD_FOLDER + f.filename+"-converted-to.pem")

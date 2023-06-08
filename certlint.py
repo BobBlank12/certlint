@@ -198,6 +198,12 @@ def convert_der_to_pem(filename):
     return(result)
 # End of convert_der_to_pem
 
+def convert_pem_to_der(filename):
+    # Use the clean PEM file I have already converted
+    result = subprocess.call(["openssl", "x509", "-outform", "der", "-in", filename + "-converted-to.pem", "-out", filename + "-converted-to.der"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=False, timeout=3)
+    return(result)
+# End of convert_pem_to_der
+
 def convert_p12_to_pem(filename):
     #print (f"filename={filename}")
     #
