@@ -41,6 +41,19 @@ def success():
             }
         )
 
+        if fileformat == "pem":
+            try:
+                convert_pem_to_pem(f.filename)
+            except Exception as e:
+                print("Error converting PEM to PEM {:}".format(e))
+            else:
+                print(f"\tI've created a {f.filename}-converted-to.pem file for you.")
+                links.append(
+                    {
+                        f.filename+"-converted-to.pem:" : '<a href="'+f.filename+'-converted-to.pem">'+f.filename+'-converted-to.pem</a>'
+                    }
+                )
+
         if fileformat == "der":
             try:
                 convert_der_to_pem(f.filename)
@@ -80,17 +93,7 @@ def success():
                     }
                 )
 
-        if fileformat == "p7b":
-            try:
-                convert_p7b_to_pem(f.filename)
-            except Exception as e:
-                print("Error converting P7B to PEM {:}".format(e))
-            else:
-                print(f"\tI've created a {f.filename}-converted.pem file for you.")
-                links.append(
-                    {
-                        f.filename+"-converted-to.pem:" : '<a href="'+f.filename+'-converted-to.pem">'+f.filename+'-converted-to.pem</a>'
-                        
-                    }
-                )
-        return render_template("uploadsuccess.html", links=links)
+        # Get the cert details from the converted pem file
+        certdetails = get_pem_cert_details(f.filename+"-converted-to.pem")
+
+        return render_template("uploadsuccess.html", links=links, certdetails=certdetails)

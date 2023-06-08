@@ -4,13 +4,37 @@
 	<title>File uploaded successfully</title>
 </head>
 <body>
+	<table style="width:100%">
+		<tbody>
+			<tr><td><br/></td></tr>
+			<tr><th>File Details</th></tr>
+		</tbody>
+	</table>
 	{% for dict in links %}
 		<table style="width:100%">
 			<tbody>
 				{% for key, value in dict.items() %}
 					<tr>
-						<td style="width:100px"> {{ key }} </td>
-						<td style="width:100px"> {{ value | safe }} </td>
+						<td width="20%" align="left"> {{ key }} </td>
+						<td width="80%" align="left"> {{ value | safe }} </td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% endfor %}
+	<table style="width:100%">
+		<tbody>
+			<tr><td><br/></td></tr>
+			<tr><th>Certificate Details</th></tr>
+		</tbody>
+	</table>
+	{% for details in certdetails %}
+		<table style="width:100%">
+			<tbody>
+				{% for key, value in details.items() %}
+					<tr>
+						<td width="20%" align="left"> {{ key }} </td>
+						<td width="80%" align="left"> {{ value }} </td>
 					</tr>
 				{% endfor %}
 			</tbody>
