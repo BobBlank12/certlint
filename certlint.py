@@ -83,10 +83,12 @@ def get_pem_cert_details(filename):
 
     certdetails = []
 
+    #print (f"filename={filename}")
+
     # Get the Subject:
     result = subprocess.run(["openssl", "x509", "-in", filename, "-noout", "-subject"], capture_output=True)
     subject = result.stdout.decode('utf-8').split('subject=', 1)[1].strip()
-    print (f"Subject:{subject}")
+    #print (f"Subject:{subject}")
     certdetails.append(
         {
             "Subject:" : subject.strip()
@@ -97,7 +99,7 @@ def get_pem_cert_details(filename):
     result = subprocess.run(["openssl", "x509", "-in", filename, "-noout", "-inform", "pem", "-ext", "subjectAltName"], capture_output=True)
     subjectaltnames = result.stdout.decode('utf-8')
     for subjectaltname in iter(subjectaltnames.splitlines()[1:]):
-        print (f"Subject Alternate Names: {subjectaltname.strip()}")
+        #print (f"Subject Alternate Names: {subjectaltname.strip()}")
         certdetails.append(
             {
                 "Subject Alternate Names:" : subjectaltname.strip()
@@ -107,7 +109,7 @@ def get_pem_cert_details(filename):
     # Get the Serial:
     result = subprocess.run(["openssl", "x509", "-in", filename, "-noout", "-serial"], capture_output=True)
     serial = result.stdout.decode('utf-8').split('serial=', 1)[1].strip()
-    print (f"Serial:{serial}")
+    #print (f"Serial:{serial}")
     certdetails.append(
         {
             "Serial:" : serial.strip()
@@ -117,7 +119,7 @@ def get_pem_cert_details(filename):
     # Get the Fingerprint:
     result = subprocess.run(["openssl", "x509", "-in", filename, "-noout", "-fingerprint", "-sha256"], capture_output=True)
     fingerprint = result.stdout.decode('utf-8').split('sha256 Fingerprint=', 1)[1].strip()
-    print (f"sha256 Fingerprint:{fingerprint}")
+    #print (f"sha256 Fingerprint:{fingerprint}")
     certdetails.append(
         {
             "Fingerprint:" : fingerprint.strip()
@@ -127,7 +129,7 @@ def get_pem_cert_details(filename):
     # Get the Startdate:
     result = subprocess.run(["openssl", "x509", "-in", filename, "-noout", "-startdate"], capture_output=True)
     startdate = result.stdout.decode('utf-8').split('notBefore=', 1)[1].strip()
-    print (f"Not Before:{startdate}")
+    #print (f"Not Before:{startdate}")
     certdetails.append(
         {
             "Not Before:" : startdate.strip()
@@ -137,7 +139,7 @@ def get_pem_cert_details(filename):
     # Get the Enddate:
     result = subprocess.run(["openssl", "x509", "-in", filename, "-noout", "-enddate"], capture_output=True)
     enddate = result.stdout.decode('utf-8').split('notAfter=', 1)[1].strip()
-    print (f"Not After:{enddate}")
+    #print (f"Not After:{enddate}")
     certdetails.append(
         {
             "Not After:" : enddate.strip()
@@ -148,7 +150,7 @@ def get_pem_cert_details(filename):
     result = subprocess.run(["openssl", "x509", "-in", filename, "-noout", "-inform", "pem", "-ext", "basicConstraints"], capture_output=True)
     basicconstraints = result.stdout.decode('utf-8')
     for constraint in iter(basicconstraints.splitlines()[1:]):
-        print (f"Basic Contraints: {constraint.strip()}")
+        #print (f"Basic Contraints: {constraint.strip()}")
         certdetails.append(
             {
                 "Basic Constraints:" : constraint.strip()
@@ -159,7 +161,7 @@ def get_pem_cert_details(filename):
     result = subprocess.run(["openssl", "x509", "-in", filename, "-noout", "-inform", "pem", "-ext", "keyUsage"], capture_output=True)
     keyusages = result.stdout.decode('utf-8')
     for keyusage in iter(keyusages.splitlines()[1:]):
-        print (f"Key Usage: {keyusage.strip()}")
+        #print (f"Key Usage: {keyusage.strip()}")
         certdetails.append(
             {
                 "Key Usage:" : keyusage.strip()
@@ -170,7 +172,7 @@ def get_pem_cert_details(filename):
     result = subprocess.run(["openssl", "x509", "-in", filename, "-noout", "-inform", "pem", "-ext", "extendedKeyUsage"], capture_output=True)
     extkeyusages = result.stdout.decode('utf-8')
     for extkeyusage in iter(extkeyusages.splitlines()[1:]):
-        print (f"Extended Key Usage: {extkeyusage.strip()}")
+        #print (f"Extended Key Usage: {extkeyusage.strip()}")
         certdetails.append(
             {
                 "Extended Key Usage:" : extkeyusage.strip()
@@ -180,7 +182,7 @@ def get_pem_cert_details(filename):
     # Get Issuer:
     result = subprocess.run(["openssl", "x509", "-in", filename, "-noout", "-issuer"], capture_output=True)
     issuer = result.stdout.decode('utf-8').split('issuer=', 1)[1].strip()
-    print (f"Issuer:{issuer}")
+    #print (f"Issuer:{issuer}")
     certdetails.append(
         {
             "Issuer:" : issuer.strip()
@@ -197,6 +199,7 @@ def convert_der_to_pem(filename):
 # End of convert_der_to_pem
 
 def convert_p12_to_pem(filename):
+    #print (f"filename={filename}")
     #
     # This is in 2 passes... to JUST get the node cert and not the ca certs
     #
