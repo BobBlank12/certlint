@@ -2,6 +2,9 @@ import os
 import sys
 import subprocess
 
+def getuploadfolder():
+    return "uploads/" 
+
 def determine_file_format(filename, fileformat, key_type):
     #filenames=["es01.p12","es01.der","es01.pkcs1.key","es01.pem","es01.p7b", "es01.pkcs8.key", "es01.pkcs8-encrypted.key"]
     print (f"Determining the file type of: {filename}")
@@ -263,7 +266,7 @@ def extract_ca_from_p7b(filename):
 def get_cas_from_pem_file(filename):
 
     input_file = filename + "-all-extracted-certs.pem"
-    output_file_prefix = "temp"
+    output_file_prefix = "website/" + getuploadfolder() + "temp"
 
     # Read the PEM file
     with open(input_file, "r") as file:
