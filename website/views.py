@@ -4,6 +4,7 @@ import os
 import sys
 import subprocess
 from certlint import *
+import glob
 
 views = Blueprint('views', __name__)
 
@@ -24,14 +25,19 @@ def getFilePem(filename):
 def getFileDer(filename):
     return send_file(UPLOAD_FOLDER+filename+"-converted-to.der", as_attachment=True)
 
-# Link to download "ca extracted from P12 file"
+# Link to download "ca extracted from P12/P7B file"
 @views.route("/uploads/<filename>-extraxted-ca-certs.pem", methods=['GET', 'POST'])
 def getFileP12ca(filename):
     return send_file(UPLOAD_FOLDER+filename+"-extraxted-ca-certs.pem", as_attachment=True)
 
 @views.route('/success', methods = ['POST'])  
 def success():  
-    if request.method == 'POST':  
+    if request.method == 'POST':
+        # Cleanup any former posts/files
+        oldfiles = glob.glob('website/'+ UPLOAD_FOLDER + '*')
+        for f in oldfiles:
+            os.remove(f)
+
         f = request.files['file']
         #print ("saving file: website/" + UPLOAD_FOLDER + secure_filename(f.filename))
         f.save("website/" + UPLOAD_FOLDER + secure_filename(f.filename))
@@ -68,6 +74,7 @@ def success():
                         f.filename+"-converted-to.pem:" : '<a href="'+UPLOAD_FOLDER+f.filename+'-converted-to.pem">'+f.filename+'-converted-to.pem</a>'
                     }
                 )
+        # End if fileformat = pem
 
         if fileformat == "der":
             try:
@@ -81,6 +88,7 @@ def success():
                         f.filename+"-converted-to.pem:" : '<a href="'+UPLOAD_FOLDER+f.filename+'-converted-to.pem">'+f.filename+'-converted-to.pem</a>'
                     }
                 )
+        # End if fileformat = der
 
         if fileformat == "p12":
             try:
@@ -106,8 +114,7 @@ def success():
                         f.filename+"-extraxted-ca-certs.pem:" : '<a href="'+UPLOAD_FOLDER+f.filename+'-extraxted-ca-certs.pem">'+f.filename+'-extraxted-ca-certs.pem</a>'
                     }
                 )
-        
-
+        # End if fileformat = p12
 
         if fileformat == "p7b":
             try:
@@ -121,6 +128,20 @@ def success():
                         f.filename+"-converted-to.pem:" : '<a href="'+UPLOAD_FOLDER+f.filename+'-converted-to.pem">'+f.filename+'-converted-to.pem</a>'
                     }
                 )
+            #Get the CAs out of the P7B file
+            try:
+                found_ca = extract_ca_from_p7b("website/" + UPLOAD_FOLDER+f.filename)
+            except Exception as e:
+                print("Error extracting all the certs from the P7B file {:}".format(e))
+            else:
+                if found_ca:
+                    print(f"\tI've exctracted the ca certs from {f.filename} and saved into {f.filename}-extraxted-ca-certs.pem file for you.")
+                    links.append(
+                        {
+                            f.filename+"-extraxted-ca-certs.pem:" : '<a href="'+UPLOAD_FOLDER+f.filename+'-extraxted-ca-certs.pem">'+f.filename+'-extraxted-ca-certs.pem</a>'
+                        }
+                    )
+        # End if fileformat = p7b
 
         # At this point I should have a clean PEM file I can create all of the other formats from...
         try:

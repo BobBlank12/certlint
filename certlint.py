@@ -227,7 +227,6 @@ def convert_pem_to_pem(filename):
     return (result) 
 # End of convert_pem_to_pem
 
-
 def convert_p7b_to_pem(filename):
     #
     # This is in 2 passes... to JUST get the node cert and not the ca certs
@@ -250,3 +249,104 @@ def extract_ca_from_p12(filename):
     return (result) 
 
 # End of extract_ca_from_p12
+
+def extract_ca_from_p7b(filename):
+    #openssl pkcs7 -in node-and-cas.p7b -print_certs -out temp.pem -outform pem
+    result = subprocess.call(["openssl", "pkcs7", "-print_certs", "-in", filename, "-out", filename + "-all-extracted-certs.pem"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=False, timeout=3)
+    found_ca = get_cas_from_pem_file(filename)
+    os.remove(filename + "-all-extracted-certs.pem")
+    return (found_ca) 
+
+# End of extract_ca_from_p7b
+
+
+def get_cas_from_pem_file(filename):
+
+    input_file = filename + "-all-extracted-certs.pem"
+    output_file_prefix = "temp"
+
+    # Read the PEM file
+    with open(input_file, "r") as file:
+        data = file.readlines()
+
+    pem_data = iter(data)
+    i = 1
+
+    for line in pem_data:
+        if line.startswith("-----BEGIN CERTIFICATE-----"):
+            output_file = f"{output_file_prefix}-{i}.pem"
+            with open(output_file, "w") as file:
+                file.write(line)
+                line = next(pem_data)
+                while not line.startswith("-----END CERTIFICATE-----"):
+                    file.write(line)
+                    line = next(pem_data)
+                else:
+                    file.write("-----END CERTIFICATE-----\n")
+                    file.close()
+                    #print(f"Certificate {i} saved to {output_file}")
+                    i=i+1
+    
+    found_ca = False
+
+    for x in range(1, i):
+        z = 1
+        # Get the Basic Constraints:
+        tempfile = output_file_prefix +"-" + str(x) + ".pem"
+        result = subprocess.run(["openssl", "x509", "-in", tempfile , "-noout", "-inform", "pem", "-ext", "basicConstraints"], capture_output=True)
+        basicconstraints = result.stdout.decode('utf-8')
+        for constraint in iter(basicconstraints.splitlines()[1:]):
+            if constraint.strip().find("CA:FALSE") != -1:
+                # this cert is NOT a CA... get rid of it.
+                #print ("temp-"+str(x)+".pem is NOT a CA file")
+                os.remove("temp-" + str(x) + ".pem")
+            elif constraint.strip().find("CA:TRUE") != -1:
+                # I may split the root and intermediate ca cert(s) out in the future...
+                """
+
+                # Here we should determine if it is the ROOT. ISS and SUBJ are equal
+                # We should rename it and add a link to the dictionary for the Web Page for it
+                #print ("temp-"+str(x)+".pem is a CA file")
+
+                # Get the Subject:
+                result = subprocess.run(["openssl", "x509", "-in", tempfile, "-noout", "-subject"], capture_output=True)
+                subject = result.stdout.decode('utf-8').split('subject=', 1)[1].strip()
+                #print (f"Subject:{subject}")
+
+                # Get Issuer:
+                result = subprocess.run(["openssl", "x509", "-in", tempfile, "-noout", "-issuer"], capture_output=True)
+                issuer = result.stdout.decode('utf-8').split('issuer=', 1)[1].strip()
+                #print (f"Issuer:{issuer}")
+
+                if issuer == subject:
+                    #This is the ROOT CA
+                    os.rename("temp-"+str(x)+".pem", "ca-root-extracted-from-p7b.pem")
+                    cadetails.append(
+                        {
+                            "ROOT CA:" : "ca-root-extracted-from-p7b.pem"
+                        }
+                    )
+                else:
+                    os.rename("temp-"+str(x)+".pem", "ca-intermediate-" + str(z) + "extracted-from-p7b.pem")
+                    cadetails.append(
+                        {
+                            "Intermediate CA-" + str(z) + ".pem:" : "ca-intermediate-" + str(z) + "extracted-from-p7b.pem"
+                        }
+                    )
+                    z=z+1
+                """
+                found_ca = True
+                with open(filename + "-extraxted-ca-certs.pem", "a") as fo:
+                    #print("trying to process file: " + output_file_prefix + "-" + str(x) + ".pem")
+                    with open(output_file_prefix + "-" + str(x) + ".pem",'r') as fi: fo.write(fi.read())
+                fo.close()
+                os.remove(output_file_prefix + "-" + str(x) + ".pem")
+            else:
+                print ("I found a cert that I cannot determine if it is a CA or NOT based on the basic constraints")
+            
+            # End if the temp file is a CA or not.
+        # End of looping through the basic constraints
+    # End of looping through each temp.pem file to test it
+
+    return(found_ca)
+    # End get_cas_from_pem_file
