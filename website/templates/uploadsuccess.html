@@ -7,7 +7,43 @@
 	<table style="width:100%">
 		<tbody>
 			<tr><td><br/></td></tr>
-			<tr><th>File Details</th></tr>
+			<tr><th>Original File</th></tr>
+		</tbody>
+	</table>
+	{% for dict in orig %}
+	<table style="width:100%">
+		<tbody>
+			{% for key, value in dict.items() %}
+				<tr>
+					<td width="35%" align="left"> {{ key }} </td>
+					<td width="65%" align="left"> {{ value | safe }} </td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	{% endfor %}
+	<table style="width:100%">
+		<tbody>
+			<tr><td><br/></td></tr>
+			<tr><th>Certificate Details</th></tr>
+		</tbody>
+	</table>
+	{% for dict in certdetails %}
+		<table style="width:100%">
+			<tbody>
+				{% for key, value in dict.items() %}
+					<tr>
+						<td width="35%" align="left"> {{ key }} </td>
+						<td width="65%" align="left"> {{ value }} </td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% endfor %}
+	<table style="width:100%">
+		<tbody>
+			<tr><td><br/></td></tr>
+			<tr><th>Conversions and Extractions</th></tr>
 		</tbody>
 	</table>
 	{% for dict in links %}
@@ -17,24 +53,6 @@
 					<tr>
 						<td width="35%" align="left"> {{ key }} </td>
 						<td width="65%" align="left"> {{ value | safe }} </td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-	{% endfor %}
-	<table style="width:100%">
-		<tbody>
-			<tr><td><br/></td></tr>
-			<tr><th>Certificate Details</th></tr>
-		</tbody>
-	</table>
-	{% for details in certdetails %}
-		<table style="width:100%">
-			<tbody>
-				{% for key, value in details.items() %}
-					<tr>
-						<td width="35%" align="left"> {{ key }} </td>
-						<td width="65%" align="left"> {{ value }} </td>
 					</tr>
 				{% endfor %}
 			</tbody>
