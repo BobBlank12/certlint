@@ -302,7 +302,7 @@ def get_cas_from_pem_file(filename):
             if constraint.strip().find("CA:FALSE") != -1:
                 # this cert is NOT a CA... get rid of it.
                 #print ("temp-"+str(x)+".pem is NOT a CA file")
-                os.remove("temp-" + str(x) + ".pem")
+                os.remove(output_file_prefix + "-" + str(x) + ".pem")
             elif constraint.strip().find("CA:TRUE") != -1:
                 # I may split the root and intermediate ca cert(s) out in the future...
                 """
