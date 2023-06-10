@@ -253,20 +253,20 @@ def extract_ca_from_p12(filename):
 
 # End of extract_ca_from_p12
 
-def extract_ca_from_p7b(filename):
+def extract_ca_from_p7b(filename,session):
     #openssl pkcs7 -in node-and-cas.p7b -print_certs -out temp.pem -outform pem
     result = subprocess.call(["openssl", "pkcs7", "-print_certs", "-in", filename, "-out", filename + "-all-extracted-certs.pem"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=False, timeout=3)
-    found_ca = get_cas_from_pem_file(filename)
+    found_ca = get_cas_from_pem_file(filename,session)
     os.remove(filename + "-all-extracted-certs.pem")
     return (found_ca) 
 
 # End of extract_ca_from_p7b
 
 
-def get_cas_from_pem_file(filename):
+def get_cas_from_pem_file(filename,session):
 
     input_file = filename + "-all-extracted-certs.pem"
-    output_file_prefix = "website/" + getuploadfolder() + "temp"
+    output_file_prefix = "website/" + getuploadfolder() + session['mysessionid'] + "/" + "temp-"
 
     # Read the PEM file
     with open(input_file, "r") as file:
@@ -277,7 +277,7 @@ def get_cas_from_pem_file(filename):
 
     for line in pem_data:
         if line.startswith("-----BEGIN CERTIFICATE-----"):
-            output_file = f"{output_file_prefix}-{i}.pem"
+            output_file = f"{output_file_prefix}{i}.pem"
             with open(output_file, "w") as file:
                 file.write(line)
                 line = next(pem_data)
@@ -295,14 +295,14 @@ def get_cas_from_pem_file(filename):
     for x in range(1, i):
         z = 1
         # Get the Basic Constraints:
-        tempfile = output_file_prefix +"-" + str(x) + ".pem"
+        tempfile = output_file_prefix + str(x) + ".pem"
         result = subprocess.run(["openssl", "x509", "-in", tempfile , "-noout", "-inform", "pem", "-ext", "basicConstraints"], capture_output=True)
         basicconstraints = result.stdout.decode('utf-8')
         for constraint in iter(basicconstraints.splitlines()[1:]):
             if constraint.strip().find("CA:FALSE") != -1:
                 # this cert is NOT a CA... get rid of it.
                 #print ("temp-"+str(x)+".pem is NOT a CA file")
-                os.remove(output_file_prefix + "-" + str(x) + ".pem")
+                os.remove(output_file_prefix + str(x) + ".pem")
             elif constraint.strip().find("CA:TRUE") != -1:
                 # I may split the root and intermediate ca cert(s) out in the future...
                 """
@@ -341,9 +341,9 @@ def get_cas_from_pem_file(filename):
                 found_ca = True
                 with open(filename + "-extraxted-ca-certs.pem", "a") as fo:
                     #print("trying to process file: " + output_file_prefix + "-" + str(x) + ".pem")
-                    with open(output_file_prefix + "-" + str(x) + ".pem",'r') as fi: fo.write(fi.read())
+                    with open(output_file_prefix + str(x) + ".pem",'r') as fi: fo.write(fi.read())
                 fo.close()
-                os.remove(output_file_prefix + "-" + str(x) + ".pem")
+                os.remove(output_file_prefix + str(x) + ".pem")
             else:
                 print ("I found a cert that I cannot determine if it is a CA or NOT based on the basic constraints")
             
