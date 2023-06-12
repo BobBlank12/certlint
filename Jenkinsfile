@@ -5,6 +5,8 @@ pipeline {
       steps {
         echo 'building the application...'
         sh 'docker stop certlint || exit 0'
+        sh 'docker rm certlint || exit 0'
+        sh 'pwd || exit 0'
       }
     }
     stage("test") {
