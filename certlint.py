@@ -86,7 +86,7 @@ def get_pem_cert_details(filename):
 
     certdetails = []
 
-    #print (f"filename={filename}")
+    print (f"filename={filename}")
 
     # Get the Subject:
     result = subprocess.run(["openssl", "x509", "-in", filename, "-noout", "-subject"], capture_output=True)
@@ -121,7 +121,8 @@ def get_pem_cert_details(filename):
 
     # Get the Fingerprint:
     result = subprocess.run(["openssl", "x509", "-in", filename, "-noout", "-fingerprint", "-sha256"], capture_output=True)
-    fingerprint = result.stdout.decode('utf-8').split('sha256 Fingerprint=', 1)[1].strip()
+    #print(f"Fingerprint Output = {result.stdout.decode('utf-8')}")
+    fingerprint = result.stdout.decode('utf-8').upper().split('SHA256 FINGERPRINT=', 1)[1].strip()
     #print (f"sha256 Fingerprint:{fingerprint}")
     certdetails.append(
         {
