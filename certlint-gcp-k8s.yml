@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: certlint
+  labels:
+    app: certlint
+spec: 
+  replicas: 1
+  selector: 
+    matchLabels: 
+      app: certlint
+  template:
+    metadata:
+      labels:
+        app: certlint
+    spec:
+      containers:
+      - name: certlint
+        image: us-central1-docker.pkg.dev/mygcp-385621/webapp/certlint:1.0
+        ports: 
+        - containerPort: 5000
+        resources:
+          requests:
+            memory: "250Mi"
+            cpu: "250m"
+          limits:
+            memory: "500Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: certlint-service
+spec:
+  selector:
+    app: certlint
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5000
+  type: LoadBalancer
