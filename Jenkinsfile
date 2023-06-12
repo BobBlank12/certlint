@@ -6,7 +6,9 @@ pipeline {
         echo 'building the application...'
         sh 'docker stop certlint || exit 0'
         sh 'docker rm certlint || exit 0'
-        sh 'pwd || exit 0'
+        sh 'rm -rf ./website/uploads/* || exit 0'
+        sh 'source VERSION'
+        sh 'docker build --tag certlint:${VERSION} .'
       }
     }
     stage("test") {
