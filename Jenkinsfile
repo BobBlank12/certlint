@@ -4,7 +4,7 @@ pipeline {
     stage("build") {
       steps {
         echo 'building the application...'
-        sh 'docker stop certlint'
+        sh 'docker stop certlint || exit 0'
       }
     }
     stage("test") {
