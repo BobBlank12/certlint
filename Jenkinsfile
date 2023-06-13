@@ -25,7 +25,7 @@ pipeline {
     }
     stage("deploy") {
       steps {
-        echo 'deploying the application...'
+        echo 'deploying the application to GCP Artifact Registry and GKE'
         sh 'docker tag certlint:${VERSION} us-central1-docker.pkg.dev/mygcp-385621/webapp/certlint:${VERSION}'
         script {
           withCredentials([file(credentialsId: 'mygcp-385621', variable: 'GC_KEY')]) {
@@ -33,8 +33,6 @@ pipeline {
             sh('gcloud auth configure-docker us-central1-docker.pkg.dev')
             sh('docker push us-central1-docker.pkg.dev/mygcp-385621/webapp/certlint:${VERSION}')
           }
-          //dockerwithRegistry('https://us-central1-docker.pkg.dev/mygcp-385621/webapp','CREDS_GO_HERE')
-          //app.push("certlint:${VERSION}")
         }
       }
     }
