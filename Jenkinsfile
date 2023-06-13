@@ -5,7 +5,6 @@ pipeline {
   }
   stages {
     stage("build") {
-      def VERSION = versionFile.trim()
       steps {
         echo 'building the application...'
         sh 'docker stop certlint || exit 0'
