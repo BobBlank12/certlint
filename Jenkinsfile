@@ -3,13 +3,18 @@ pipeline {
   stages {
     stage("Get Version Info") {
       steps {
-        def versionFile = readFile('VERSION')
-        // Extract the version information
-        def version = versionFile.trim()
-        // Print the version for verification
-        sh "echo Version: ${version}"
-        // set the version as an environment variable for later use
-        env.VERSION = version
+                // Fetch the version file from the repository
+                sh 'git checkout main' // Assuming the version file is in the main branch
+                def versionFile = sh(script: 'cat path/to/version/file', returnStdout: true).trim()
+                
+                // Extract the version information
+                def version = versionFile.trim()
+                
+                // Print the version for verification
+                sh "echo Version: ${version}"
+                
+                // You can also set the version as an environment variable for later use
+                env.VERSION = version
       }
     }
     stage("build") {
