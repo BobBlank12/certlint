@@ -4,7 +4,8 @@ pipeline {
     stage("build") {
       steps {
         echo 'building the application...'
-        sh 'export VERSION=$(grep -oP "(?<=VERSION=)[0-9]+\\.[0-9]+\\.[0-9]+" VERSION)'
+        def versionFile = readFile('VERSION')
+        def VERSION = versionFile.trim()
         sh 'echo $VERSION'
         sh 'docker stop certlint || exit 0'
         sh 'docker rm certlint || exit 0'
