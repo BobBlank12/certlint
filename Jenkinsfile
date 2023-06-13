@@ -1,9 +1,5 @@
 pipeline {
   agent any
-  environment {
-    //VERSION = "1.0.0"
-    temp="temp"
-  }
   stages {
     stage("Read properties file") {
       steps {
@@ -11,7 +7,6 @@ pipeline {
           def props = readProperties file: 'VERSION'
           env.VERSION = props.VERSION
         }
-        echo "The VERSION is $VERSION"
       }
     }
     stage("build") {
@@ -20,7 +15,6 @@ pipeline {
         sh 'docker stop certlint || exit 0'
         sh 'docker rm certlint || exit 0'
         sh 'rm -rf ./website/uploads/* || exit 0'
-        sh 'echo VERSION=${VERSION}'
         sh 'docker build --tag certlint:${VERSION} .'
       }
     }
@@ -32,6 +26,8 @@ pipeline {
     stage("deploy") {
       steps {
         echo 'deploying the application...'
+        sh 'docker tag certlint:${VERSION} us-central1-docker.pkg.dev/mygcp-385621/webapp/certlint:${VERSION}'
+        sh 'docker push us-central1-docker.pkg.dev/mygcp-385621/webapp/certlint:${VERSION}'
       }
     }
   }
