@@ -26,8 +26,15 @@ pipeline {
     stage("deploy") {
       steps {
         echo 'deploying the application...'
-        sh 'docker tag certlint:${VERSION} us-central1-docker.pkg.dev/mygcp-385621/webapp/certlint:${VERSION}'
-        sh 'docker push us-central1-docker.pkg.dev/mygcp-385621/webapp/certlint:${VERSION}'
+        docker tag certlint:${VERSION} us-central1-docker.pkg.dev/mygcp-385621/webapp/certlint:${VERSION}
+        script {
+          withCredentials([file(credentialsID: 'mygcp-385621', variable: 'GC_KEY')]) {
+            sh("gcloud auth activate-service-account --key-file=${GC_KEY}")
+          }
+          //dockerwithRegistry('https://us-central1-docker.pkg.dev/mygcp-385621/webapp','CREDS_GO_HERE')
+          //app.push("certlint:${VERSION}")
+          ///docker push us-central1-docker.pkg.dev/mygcp-385621/webapp/certlint:${VERSION}
+        }
       }
     }
   }
