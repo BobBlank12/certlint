@@ -2,6 +2,7 @@ pipeline {
   agent any
   environment {
     //VERSION = "1.0.0"
+    temp="temp"
   }
   stages {
     stage("Read properties file") {
