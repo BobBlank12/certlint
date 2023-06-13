@@ -1,31 +1,17 @@
 pipeline {
   agent any
+  environment {
+    VERSION = 1.0.0
+  }
   stages {
-    stage("Get Version Info") {
-      steps {
-                // Fetch the version file from the repository
-                sh 'git checkout main' // Assuming the version file is in the main branch
-                def versionFile = sh(script: 'cat path/to/version/file', returnStdout: true).trim()
-                
-                // Extract the version information
-                def version = versionFile.trim()
-                
-                // Print the version for verification
-                sh "echo Version: ${version}"
-                
-                // You can also set the version as an environment variable for later use
-                env.VERSION = version
-      }
-    }
     stage("build") {
       def VERSION = versionFile.trim()
       steps {
         echo 'building the application...'
-        sh 'echo ${VERSION}'
         sh 'docker stop certlint || exit 0'
         sh 'docker rm certlint || exit 0'
         sh 'rm -rf ./website/uploads/* || exit 0'
-        sh 'docker build --tag certlint .'
+        sh 'docker build --tag certlint:${VERSION} .'
       }
     }
     stage("test") {
