@@ -2,10 +2,10 @@ pipeline {
   agent any
   stages {
     stage("build") {
+      def versionFile = readFile('VERSION')
+      def VERSION = versionFile.trim()
       steps {
         echo 'building the application...'
-        def versionFile = readFile('VERSION')
-        def VERSION = versionFile.trim()
         sh 'echo $VERSION'
         sh 'docker stop certlint || exit 0'
         sh 'docker rm certlint || exit 0'
