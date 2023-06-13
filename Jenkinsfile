@@ -4,7 +4,7 @@ pipeline {
     stage("build") {
       steps {
         echo 'building the application...'
-        sh 'VERSION=$(grep "VERSION=([0-9]+\\.[0-9]+\\.[0-9])" VERSION)'
+        sh 'VERSION=$(grep -oP "(?<=VERSION=)[0-9]+\.[0-9]+\.[0-9]+" VERSION)'
         sh 'echo $VERSION'
         sh 'docker stop certlint || exit 0'
         sh 'docker rm certlint || exit 0'
