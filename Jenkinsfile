@@ -30,10 +30,10 @@ pipeline {
         script {
           withCredentials([file(credentialsId: 'mygcp-385621', variable: 'GC_KEY')]) {
             sh("gcloud auth activate-service-account --key-file=${GC_KEY}")
+            sh 'docker push us-central1-docker.pkg.dev/mygcp-385621/webapp/certlint:${VERSION}'
           }
           //dockerwithRegistry('https://us-central1-docker.pkg.dev/mygcp-385621/webapp','CREDS_GO_HERE')
           //app.push("certlint:${VERSION}")
-          ///docker push us-central1-docker.pkg.dev/mygcp-385621/webapp/certlint:${VERSION}
         }
       }
     }
