@@ -8,7 +8,7 @@ pipeline {
         sh 'docker rm certlint || exit 0'
         sh 'rm -rf ./website/uploads/* || exit 0'
         sh '. ./VERSION'
-        sh 'docker build --tag certlint:${VERSION} .'
+        sh 'docker build --tag certlint .'
       }
     }
     stage("test") {
