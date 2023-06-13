@@ -24,6 +24,9 @@ pipeline {
       }
     }
     stage("deploy") {
+      // This tags the image and pushes to GCP Artifact Registry
+      // I got the idea to use a SECRET FILE from here:
+      //   https://stackoverflow.com/questions/45355007/how-to-authenticate-with-a-google-service-account-in-jenkins-pipeline
       steps {
         echo 'deploying the application to GCP Artifact Registry and GKE'
         sh 'docker tag certlint:${VERSION} us-central1-docker.pkg.dev/mygcp-385621/webapp/certlint:${VERSION}'
