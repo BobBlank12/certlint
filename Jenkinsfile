@@ -26,7 +26,7 @@ pipeline {
     stage("deploy") {
       steps {
         echo 'deploying the application...'
-        docker tag certlint:${VERSION} us-central1-docker.pkg.dev/mygcp-385621/webapp/certlint:${VERSION}
+        sh 'docker tag certlint:${VERSION} us-central1-docker.pkg.dev/mygcp-385621/webapp/certlint:${VERSION}'
         script {
           withCredentials([file(credentialsID: 'mygcp-385621', variable: 'GC_KEY')]) {
             sh("gcloud auth activate-service-account --key-file=${GC_KEY}")
