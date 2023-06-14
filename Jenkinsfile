@@ -41,9 +41,13 @@ pipeline {
     stage("Deploy to GKE"){
       steps {
         echo 'Deploying the container to GKE'
-        sh('kubectl apply -f certlint-gcp-k8s.yml')
+        script {
+          withCredentials([file(credentialsId: 'mygcp-385621', variable: 'GC_KEY')]) {
+            sh('gcloud auth activate-service-account --key-file=${GC_KEY}')
+            sh('kubectl apply -f certlint-gcp-k8s.yml')
+          }
+        }
       }
     }
-
   }
 }
