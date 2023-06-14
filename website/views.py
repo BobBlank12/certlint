@@ -41,7 +41,7 @@ def getFileP12ca(filename):
 def success():  
     if request.method == 'POST':
         # Cleanup any former posts/files
-        oldfiles = glob.glob('website/'+ getuploadfolder() + session['mysessionid'] + "/*")
+        #oldfiles = glob.glob('website/'+ getuploadfolder() + session['mysessionid'] + "/*")
         for f in oldfiles:
             os.remove(f)
 

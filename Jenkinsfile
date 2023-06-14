@@ -17,7 +17,6 @@ pipeline {
         sh 'ls -la website/uploads'
         sh 'docker stop certlint || exit 0'
         sh 'docker rm certlint || exit 0'
-        //sh 'rm -rf ./website/uploads/* || exit 0'
         sh 'docker build --tag certlint:${VERSION} .'
       }
     }

@@ -5,6 +5,5 @@ WORKDIR /app
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 COPY . .
-RUN mkdir website/uploads
 EXPOSE 5000
 CMD [ "python3", "main.py", "run" ]
