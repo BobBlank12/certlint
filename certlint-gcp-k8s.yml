@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: certlint
-        image: us-central1-docker.pkg.dev/mygcp-385621/webapp/certlint:1.0
+        image: us-central1-docker.pkg.dev/mygcp-385621/webapp/certlint:1.0.0
         ports: 
         - containerPort: 5000
         resources:

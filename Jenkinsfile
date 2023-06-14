@@ -1,7 +1,7 @@
 pipeline {
   agent any
   stages {
-    stage("Read properties file") {
+    stage("Read the properties file") {
       steps {
         script {
           def props = readProperties file: 'VERSION'
@@ -9,9 +9,9 @@ pipeline {
         }
       }
     }
-    stage("build") {
+    stage("Build the Docker image") {
       steps {
-        echo 'building the application...'
+        echo 'Building the application...'
         sh 'docker stop certlint || exit 0'
         sh 'docker rm certlint || exit 0'
         sh 'rm -rf ./website/uploads/* || exit 0'
@@ -23,12 +23,11 @@ pipeline {
         echo 'testing the application...'
       }
     }
-    stage("deploy") {
-      // This tags the image and pushes to GCP Artifact Registry
+    stage("Tag and Push the image to GCP Artifact registry") {
       // I got the idea to use a SECRET FILE from here:
       //  https://stackoverflow.com/questions/45355007/how-to-authenticate-with-a-google-service-account-in-jenkins-pipeline
       steps {
-        echo 'deploying the application to GCP Artifact Registry and GKE'
+        echo 'Pushing the application to GCP Artifact Registry'
         sh 'docker tag certlint:${VERSION} us-central1-docker.pkg.dev/mygcp-385621/webapp/certlint:${VERSION}'
         script {
           withCredentials([file(credentialsId: 'mygcp-385621', variable: 'GC_KEY')]) {
@@ -39,5 +38,12 @@ pipeline {
         }
       }
     }
+    stage("Deploy to GKE"){
+      steps {
+        echo 'Deploying the container to GKE'
+        sh('kubectl apply -f certlint-gcp-k8s.yml')
+      }
+    }
+
   }
 }
