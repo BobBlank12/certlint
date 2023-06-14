@@ -47,7 +47,7 @@ pipeline {
           withCredentials([file(credentialsId: 'mygcp-385621', variable: 'GC_KEY')]) {
             sh('gcloud auth activate-service-account --key-file=${GC_KEY}')
             sh('gcloud container clusters get-credentials gcp-lab-gke --zone=us-central1-c --project=mygcp-385621')
-            sh('kubectl delete -f certlint-gcp-k8s.yml')
+            sh('kubectl delete -f certlint-gcp-k8s.yml || exit 0')
             sh('kubectl apply -f certlint-gcp-k8s.yml')
           }
         }
