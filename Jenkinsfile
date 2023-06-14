@@ -12,6 +12,8 @@ pipeline {
     stage("Build the Docker image") {
       steps {
         echo 'Building the application...'
+        sh 'pwd'
+        sh 'ls -la website'
         sh 'docker stop certlint || exit 0'
         sh 'docker rm certlint || exit 0'
         //sh 'rm -rf ./website/uploads/* || exit 0'
