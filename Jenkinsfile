@@ -60,7 +60,7 @@ pipeline {
 
 //gcloud container clusters get-credentials gcp-lab-gke
 
-#!/bin/bash -xe
+//#!/bin/bash -xe
 //gcloud container clusters get-credentials jenkins-cd
 //kubectl cluster-info
 
