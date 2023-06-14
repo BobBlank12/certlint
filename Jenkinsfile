@@ -4,7 +4,7 @@ pipeline {
     stage("Read the properties file") {
       steps {
         script {
-          def props = readProperties file: 'VERSION'
+          def props = readProperties file: 'PROPERTIES'
           env.VERSION = props.VERSION
         }
       }
