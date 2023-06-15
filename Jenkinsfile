@@ -37,7 +37,7 @@ pipeline {
         echo 'Pushing the application to GCP Artifact Registry'
         sh 'docker tag ${IMAGE}:${VERSION} ${LOCATION}-docker.pkg.dev/${PROJECT}/${REPOSITORY}/${IMAGE}:${VERSION}'
         script {
-          withCredentials([file(credentialsId: 'mygcp-385621', variable: 'GC_KEY')]) {
+          withCredentials([file(credentialsId: "${PROJECT}", variable: 'GC_KEY')]) {
             sh('gcloud auth activate-service-account --key-file=${GC_KEY}')
             sh('gcloud auth configure-docker ${LOCATION}-docker.pkg.dev')
             //sh('gcloud artifacts docker images delete --quiet ${LOCATION}-docker.pkg.dev/${PROJECT}/${REPOSITORY}/${IMAGE}:${VERSION} --delete-tags || exit 0')
@@ -50,11 +50,12 @@ pipeline {
       steps {
         echo 'Deploying the container to GKE'
         script {
-          withCredentials([file(credentialsId: 'mygcp-385621', variable: 'GC_KEY')]) {
+          withCredentials([file(credentialsId: "${PROJECT}", variable: 'GC_KEY')]) {
             sh('gcloud auth activate-service-account --key-file=${GC_KEY}')
             sh('gcloud container clusters get-credentials ${CLUSTER} --zone=${LOCATION}-c --project=${PROJECT}')
-            sh('kubectl delete -f certlint-gcp-k8s.yml || exit 0')
-            sh('kubectl apply -f certlint-gcp-k8s.yml')
+            sh('kubectl delete -f ${IMAGE}-application.yml || exit 0')
+            sh('kubectl apply -f ${IMAGE}-application.yml')
+            sh('kubectl apply -f ${IMAGE}-service.yml')
           }
         }
       }
