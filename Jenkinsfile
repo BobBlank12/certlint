@@ -55,7 +55,8 @@ pipeline {
             sh('gcloud container clusters get-credentials ${CLUSTER} --zone=${LOCATION}-c --project=${PROJECT}')
             //sh('kubectl delete -f ${IMAGE}-application.yml || exit 0')
             sh('kubectl delete deployment ${IMAGE} || exit 0')
-            sh('sed "s/\$VERSION/$VERSION/" ${IMAGE}-application.yml | kubectl apply -f -')
+            sh('sed "s/\$VERSION/${VERSION}/" ${IMAGE}-application.yml')
+            sh('sed "s/\$VERSION/${VERSION}/" ${IMAGE}-application.yml | kubectl apply -f -')
             sh('kubectl apply -f ${IMAGE}-service.yml')
           }
         }
