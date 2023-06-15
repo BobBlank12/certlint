@@ -55,9 +55,10 @@ pipeline {
         script {
           withCredentials([file(credentialsId: "${PROJECT}", variable: 'GC_KEY')]) {
             sh('gcloud auth activate-service-account --key-file=${GC_KEY}')
-            sh('gcloud container clusters get-credentials ${CLUSTER} --zone=${LOCATION}-c --project=${PROJECT}')
+            sh('gcloud container clusters get-credentials ${CLUSTER}-{BRANCH_NAME} --zone=${LOCATION}-c --project=${PROJECT}')
             sh('kubectl delete deployment ${IMAGE} || exit 0')
-            // Use sed to replace the $VERSION placeholder in the K8S application manifest file...
+            // Use sed to replace the $VERSION placeholder in the K8S application manifest file... chicken and egg problem.
+            // most people would use a build hash here as an option... but still chicken and egg problem.
             //sh('sed "s/\\$VERSION/${VERSION}/" ${IMAGE}-application.yml')
             sh('sed "s/\\$VERSION/${VERSION}/" ${IMAGE}-application.yml | kubectl apply -f -')
             sh('kubectl apply -f ${IMAGE}-service.yml')
