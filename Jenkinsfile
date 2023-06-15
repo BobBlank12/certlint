@@ -6,6 +6,11 @@ pipeline {
         script {
           def props = readProperties file: 'PROPERTIES'
           env.VERSION = props.VERSION
+          env.PROJECT = props.PROJECT
+          env.LOCATION = props.LOCATION
+          env.REPOSITORY = props.REPOSITORY
+          env.IMAGE = props.IMAGE
+          env.CLUSTER = props.CLUSTER
         }
       }
     }
@@ -15,9 +20,9 @@ pipeline {
         sh 'pwd'
         sh 'ls -la website'
         sh 'ls -la website/uploads'
-        sh 'docker stop certlint || exit 0'
-        sh 'docker rm certlint || exit 0'
-        sh 'docker build --tag certlint:${VERSION} .'
+        sh 'docker stop ${IMAGE} || exit 0'
+        sh 'docker rm ${IMAGE} || exit 0'
+        sh 'docker build --tag ${IMAGE}:${VERSION} .'
       }
     }
     stage("test") {
@@ -30,12 +35,13 @@ pipeline {
       //  https://stackoverflow.com/questions/45355007/how-to-authenticate-with-a-google-service-account-in-jenkins-pipeline
       steps {
         echo 'Pushing the application to GCP Artifact Registry'
-        sh 'docker tag certlint:${VERSION} us-central1-docker.pkg.dev/mygcp-385621/webapp/certlint:${VERSION}'
+        sh 'docker tag ${IMAGE}:${VERSION} ${LOCATION}-docker.pkg.dev/${PROJECT}/${REPOSITORY}/${IMAGE}:${VERSION}'
         script {
-          withCredentials([file(credentialsId: 'mygcp-385621', variable: 'GC_KEY')]) {
+          withCredentials([file(credentialsId: ${PROJECT}, variable: 'GC_KEY')]) {
             sh('gcloud auth activate-service-account --key-file=${GC_KEY}')
-            sh('gcloud auth configure-docker us-central1-docker.pkg.dev')
-            sh('docker push us-central1-docker.pkg.dev/mygcp-385621/webapp/certlint:${VERSION}')
+            sh('gcloud auth configure-docker ${LOCATION}-docker.pkg.dev')
+            sh('gcloud artifacts docker images delete --quiet $LOCATION-docker.pkg.dev/$PROJECT/$REPOSITORY/$IMAGE:${VERSION} --delete-tags')
+            sh('docker push ${LOCATION}-docker.pkg.dev/${PROJECT}/${REPOSITORY}/${IMAGE}:${VERSION}')
           }
         }
       }
@@ -44,9 +50,9 @@ pipeline {
       steps {
         echo 'Deploying the container to GKE'
         script {
-          withCredentials([file(credentialsId: 'mygcp-385621', variable: 'GC_KEY')]) {
+          withCredentials([file(credentialsId: ${PROJECT}, variable: 'GC_KEY')]) {
             sh('gcloud auth activate-service-account --key-file=${GC_KEY}')
-            sh('gcloud container clusters get-credentials gcp-lab-gke --zone=us-central1-c --project=mygcp-385621')
+            sh('gcloud container clusters get-credentials ${CLUSTER} --zone=${LOCATION}-c --project=${PROJECT}')
             sh('kubectl delete -f certlint-gcp-k8s.yml || exit 0')
             sh('kubectl apply -f certlint-gcp-k8s.yml')
           }

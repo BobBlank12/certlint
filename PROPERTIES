@@ -1,1 +1,8 @@
 VERSION=1.0.1
+
+LOCATION=us-central1
+PROJECT=mygcp-385621
+CLUSTER=gcp-lab-gke
+
+REPOSITORY=webapp
+IMAGE=certlint
