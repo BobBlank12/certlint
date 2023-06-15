@@ -29,17 +29,10 @@
       </button>
       <div class="collapse navbar-collapse" id="navbar">
         <div class="navbar-nav">
-          <a class="nav-item nav-link" id="home" href="/">Home</a>
-          <a class="nav-item nav-link" id="conversions" href="/conversions">Conversions</a>
+          <a class="nav-item nav-link" id="home" href="/">Upload a certificate or key file</a>
         </div>
       </div>
     </nav>
-
-    <tbody>
-      <tr><td><br/></td></tr>
-      <tr><th>Session ID: {{ session['mysessionid'] }}</th></tr>
-    </tbody>
-
     {% with messages = get_flashed_messages(with_categories=true) %} {% if
     messages %} {% for category, message in messages %} {% if category ==
     'error' %}
@@ -57,7 +50,6 @@
       </button>
     </div>
     {% endif %} {% endfor %} {% endif %} {% endwith %}
-
     <div class="container">{% block content %} {% endblock %}</div>
     <script
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

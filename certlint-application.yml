@@ -16,7 +16,8 @@ spec:
     spec:
       containers:
       - name: certlint
-        image: us-central1-docker.pkg.dev/mygcp-385621/webapp/certlint:1.0
+        image: us-central1-docker.pkg.dev/mygcp-385621/webapp/certlint:$VERSION
+        imagePullPolicy: Always
         ports: 
         - containerPort: 5000
         resources:
@@ -26,16 +27,3 @@ spec:
           limits:
             memory: "500Mi"
             cpu: "500m"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: certlint-service
-spec:
-  selector:
-    app: certlint
-  ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 5000
-  type: LoadBalancer

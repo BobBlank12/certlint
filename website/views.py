@@ -46,7 +46,7 @@ def success():
             os.remove(f)
 
         if not os.path.exists('website/'+ getuploadfolder() + session['mysessionid'] + "/"):
-            os.mkdir('website/'+ getuploadfolder() + session['mysessionid'])
+            os.makedirs('website/'+ getuploadfolder() + session['mysessionid'], exist_ok=True)
 
         f = request.files['file']
         print ("saving file: website/" + getuploadfolder() + session['mysessionid'] + "/" + secure_filename(f.filename))
