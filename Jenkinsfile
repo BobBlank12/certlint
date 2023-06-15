@@ -40,7 +40,7 @@ pipeline {
           withCredentials([file(credentialsId: 'mygcp-385621', variable: 'GC_KEY')]) {
             sh('gcloud auth activate-service-account --key-file=${GC_KEY}')
             sh('gcloud auth configure-docker ${LOCATION}-docker.pkg.dev')
-            sh('gcloud artifacts docker images delete --quiet ${LOCATION}-docker.pkg.dev/${PROJECT}/${REPOSITORY}/${IMAGE}:${VERSION} --delete-tags || exit 0')
+            //sh('gcloud artifacts docker images delete --quiet ${LOCATION}-docker.pkg.dev/${PROJECT}/${REPOSITORY}/${IMAGE}:${VERSION} --delete-tags || exit 0')
             sh('docker push ${LOCATION}-docker.pkg.dev/${PROJECT}/${REPOSITORY}/${IMAGE}:${VERSION}')
           }
         }
