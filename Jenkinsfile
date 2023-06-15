@@ -50,7 +50,7 @@ pipeline {
       steps {
         echo 'Deploying the container to GKE'
         script {
-          withCredentials([file(credentialsId: ${PROJECT}, variable: 'GC_KEY')]) {
+          withCredentials([file(credentialsId: 'mygcp-385621', variable: 'GC_KEY')]) {
             sh('gcloud auth activate-service-account --key-file=${GC_KEY}')
             sh('gcloud container clusters get-credentials ${CLUSTER} --zone=${LOCATION}-c --project=${PROJECT}')
             sh('kubectl delete -f certlint-gcp-k8s.yml || exit 0')
