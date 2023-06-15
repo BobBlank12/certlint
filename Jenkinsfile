@@ -20,8 +20,8 @@ pipeline {
         sh 'pwd'
         sh 'ls -la website'
         sh 'ls -la website/uploads'
-        sh 'docker stop ${IMAGE} || exit 0'
-        sh 'docker rm ${IMAGE} || exit 0'
+        sh 'docker stop ${IMAGE}:${VERSION} || exit 0'
+        sh 'docker rm ${IMAGE}:${VERSION} || exit 0'
         sh 'docker build --tag ${IMAGE}:${VERSION} .'
       }
     }
