@@ -218,7 +218,7 @@ Project Link: [https://github.com/BobBlank12/certlint](https://github.com/BobBla
 [product-screenshot]: images/screenshot.png
 [Flask]: https://img.shields.io/badge/-Flask-000000?style=for-the-badge&logo=flask&logoColor=white
 [Flask-url]: https://flask.palletsprojects.com/
-[Python]: https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python
+[Python]: https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white
 [Python-url]: https://python.org/
 [Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
 [Vue-url]: https://vuejs.org/
