@@ -71,7 +71,8 @@
 CertLint is a project I built to improve/practice my skills in scripting, CI/CD, Docker and Kubernetes.  BY NO MEANS am I claiming/attempting or wanting to be a front-end developer. You can use the online version to "play with" or you can use it "offiline" to convert/validate your own certificates and keys by running it in a Docker container.
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<p align="right">(<a href="#readme-top">back to top</a>)</br></p>
 
 ## Prerequisites
 
@@ -82,6 +83,8 @@ CertLint is a project I built to improve/practice my skills in scripting, CI/CD,
 docker pull bkblankdocker/certlint:latest
 ```
 At this point, you can disconnect your network connections if you don't trust the container to "phone home" and steal any certificates/keys/passwords you provide.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</br></p>
 
 ## Run CertLint
 **3. Run the container:**
@@ -96,6 +99,7 @@ docker run -d -p 9000:5000 bkblankdocker/certlint:latest
 
 **4. Open your browser to http://localhost:5000**
 
+<p align="right">(<a href="#readme-top">back to top</a>)</br></p>
 
 ## Cleanup
 
@@ -112,7 +116,7 @@ docker image rm bkblankdocker/certlint:latest
 
 Re-enable your network interfaces if you disabled them above.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top">back to top</a>)</br></p>
 
 <!-- USAGE EXAMPLES -->
 ## Usage
@@ -121,7 +125,7 @@ Use this space to show useful examples of how a project can be used. Additional 
 
 _For more examples, please refer to the [Documentation](https://example.com)_
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top">back to top</a>)</br></p>
 
 <!-- ROADMAP -->
 ## Roadmap
@@ -135,7 +139,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 - [ ] "Online version" - connect to a service and display the cert/chain in use, build a truststore from the chain  
 
 See the [open issues](https://github.com/BobBlank12/certlint/issues) for a full list of proposed features (and known issues).
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top">back to top</a>)</br></p>
 
 <!-- CONTRIBUTING -->
 ## Contributing
@@ -151,7 +155,7 @@ Don't forget to give the project a star! Thanks again!
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top">back to top</a>)</br></p>
 
 ### Built With
 
@@ -162,14 +166,14 @@ Don't forget to give the project a star! Thanks again!
 * [![OpenSSL][OpenSSL]][OpenSSL-url]
 * [![Jenkins][Jenkins]][Jenkins-url]
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top">back to top</a>)</br></p>
 
 <!-- LICENSE -->
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top">back to top</a>)</br></p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
