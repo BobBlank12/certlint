@@ -208,7 +208,7 @@ Project Link: [https://github.com/BobBlank12/certlint](https://github.com/BobBla
 [issues-shield]: https://img.shields.io/github/issues/BobBlank12/certlint.svg?style=for-the-badge
 [issues-url]: https://github.com/BobBlank12/certlint/issues
 [license-shield]: https://img.shields.io/github/license/BobBlank12/certlint.svg?style=for-the-badge
-[license-url]: https://github.com/BobBlank12/certlint/blob/master/LICENSE
+[license-url]: https://github.com/BobBlank12/certlint/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/bob-blank-62672439
 [product-screenshot]: images/screenshot.png
