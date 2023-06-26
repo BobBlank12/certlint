@@ -29,7 +29,7 @@
   <p align="center">
     <br />
     <br />
-    # CertLint is a tool to help you view/convert/validate your certificates and keys. It can be run online or completely offline in a Docker container.
+    CertLint is a tool to help you view/convert/validate your certificates and keys. It can be run online or completely offline in a Docker container.
     <br />
     <br />
     <a href="https://github.com/BobBlank12/certlint">View Demo</a>
@@ -78,16 +78,16 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 
 ### Prerequisites
 
-##To run CertLint offline using Docker:
-[Install Docker](https://docs.docker.com/get-docker/)
+** Run CertLint offline using Docker:
+[First install Docker](https://docs.docker.com/get-docker/)
 
-# Pull the latest CertLint Docker image:
+** Pull the latest CertLint Docker image:
 ```
 docker pull bkblankdocker/certlint:latest
 ```
-# At this point, you can disconnect your network connections if you don't trust the container to "phone home" and steal any certificates/keys/passwords you provide.
+** At this point, you can disconnect your network connections if you don't trust the container to "phone home" and steal any certificates/keys/passwords you provide.
 
-# Run the container:
+** Run the container:
 ```
 docker run -d -p 5000:5000 bkblankdocker/certlint:latest
 ```
