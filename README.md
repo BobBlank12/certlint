@@ -25,9 +25,11 @@
   </a>
 
 <!-- <h3 align="center">CertLint</h3> -->
-  <br />
+
   <p align="center">
-    CertLint is a tool to help you view/convert/validate your certificates and keys. It can be run online or completely offline in a Docker container.
+    <br />
+    <br />
+    # CertLint is a tool to help you view/convert/validate your certificates and keys. It can be run online or completely offline in a Docker container.
     <br />
     <br />
     <a href="https://github.com/BobBlank12/certlint">View Demo</a>
