@@ -85,7 +85,7 @@ At this point, you can disconnect your network connections if you don't trust th
 
 **3. Run the container:**
 ```
-docker run -d -p 5000:5000 bkblankdocker/certlint:latest
+docker run -d -p 5000:5000 --name certlint bkblankdocker/certlint:latest
 ```
 
 If port 5000 is in use on your host, choose another port of your preference, e.g. use port 9000
