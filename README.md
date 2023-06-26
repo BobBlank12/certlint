@@ -68,7 +68,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-CertLint is a project I built to improve/practice my skills in scripting, CI/CD, Docker and Kubernetes.  BY NO MEANS am I claiming/attempting or wanting to be a front-end developer. You can use the online version to "play with" or you can use it "offiline" to convert/validate your own certificates and keys by running it in a Docker container.
+CertLint is a project I built to improve/practice my skills in scripting, CI/CD, Docker and Kubernetes.  **BY NO MEANS** am I claiming/attempting or wanting to be a front-end developer. You can use the online version to "play with" or you can use it "offiline" to convert/validate your own certificates and keys by running it in a Docker container.
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
@@ -104,7 +104,9 @@ docker run -d -p 9000:5000 bkblankdocker/certlint:latest
 ## Cleanup
 
 **5. Stop and remove the running certlint container**
+
 Make sure you have saved all of the converted certificates/keys you want as the next step will destory the container and any files it created for you.
+
 ```
 docker rm -f certlint
 ```
