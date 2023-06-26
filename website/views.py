@@ -40,6 +40,9 @@ def getFileP12ca(filename):
 @views.route('/success', methods = ['POST'])  
 def success():  
     if request.method == 'POST':
+        password=""
+        password = request.form.get("pwd")
+        
         # Cleanup any former posts/files
         oldfiles = glob.glob('website/'+ getuploadfolder() + session['mysessionid'] + "/*")
         for f in oldfiles:
@@ -56,11 +59,9 @@ def success():
         key_type = "n/a"
 
         # Determine the file format I've been given
-        fileformat, key_type = determine_file_format("website/" + getuploadfolder() + session['mysessionid'] + "/" + f.filename, fileformat, key_type)
+        fileformat, key_type = determine_file_format("website/" + getuploadfolder() + session['mysessionid'] + "/" + f.filename, fileformat, key_type, password)
 
         #print(f"fileformat={fileformat}")
-
-        # Convert to PEM from whatever I've received
 
         orig = []
         links = []
@@ -104,7 +105,7 @@ def success():
 
         if fileformat == "p12":
             try:
-                convert_p12_to_pem("website/" + getuploadfolder() + session['mysessionid'] + "/" + f.filename)
+                convert_p12_to_pem("website/" + getuploadfolder() + session['mysessionid'] + "/" + f.filename, password)
             except Exception as e:
                 print("Error converting P12 to PEM {:}".format(e))
             else:
@@ -155,7 +156,7 @@ def success():
                     )
         # End if fileformat = p7b
 
-        if fileformat != "key":
+        if fileformat in ("pem", "p12", "p7b", "der"): 
             # At this point I should have a clean PEM file I can create all of the other formats from...
             try:
                 convert_pem_to_der("website/" + getuploadfolder() + session['mysessionid'] + "/" + f.filename)
@@ -170,6 +171,6 @@ def success():
                 )
             # Get the cert details from the converted pem file
             certdetails = get_pem_cert_details("website/" + getuploadfolder() + session['mysessionid'] + "/" + f.filename+"-converted-to.pem")
-        # End if fileformat != key
+        # End if fileformat != key and not unknown
 
         return render_template("uploadsuccess.html", orig=orig, links=links, certdetails=certdetails)
