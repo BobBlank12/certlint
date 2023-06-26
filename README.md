@@ -36,7 +36,6 @@
 <details>
   <summary>Table of Contents</summary>
   <ol>
-    <li>
       <li><a href="#about-the-project">About The Project</a></li>
       <li><a href="#prerequisites">Prerequisites</a></li>
       <li><a href="#run-certlint">Run CertLint</a></li>
@@ -46,7 +45,6 @@
       <li><a href="#contributing">Contributing</a></li>
       <li><a href="#built-with">Built With</a></li>
       <li><a href="#license">License</a></li>
-    </li>
   </ol>
 </details>
 
@@ -85,7 +83,7 @@ docker run -d -p 9000:5000 bkblankdocker/certlint:latest
 
 <p align="right">(<a href="#readme-top">back to top</a>)</br></p>
 
-## Cleanup
+## Clean up
 
 **5. Stop and remove the running certlint container**
 
