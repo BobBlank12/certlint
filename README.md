@@ -71,22 +71,19 @@
 CertLint is a project I built to improve/practice my skills in scripting, CI/CD, Docker and Kubernetes.  BY NO MEANS am I claiming/attempting or wanting to be a front-end developer. You can use the online version to "play with" or you can use it "offiline" to convert/validate your own certificates and keys by running it in a Docker container.
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
-
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Prerequisites
 
-**Install Docker on your host:** [Install Docker](https://docs.docker.com/get-docker/)
+**1. Install Docker on your host:** [Install Docker](https://docs.docker.com/get-docker/)
 
-**Pull the latest CertLint Docker image from the Docker repository:**
+**2. Pull the latest CertLint Docker image from the Docker repository:**
 ```
 docker pull bkblankdocker/certlint:latest
 ```
 At this point, you can disconnect your network connections if you don't trust the container to "phone home" and steal any certificates/keys/passwords you provide.
 
-**Run the container:**
+**3. Run the container:**
 ```
 docker run -d -p 5000:5000 bkblankdocker/certlint:latest
 ```
@@ -96,18 +93,18 @@ If port 5000 is in use on your host, choose another port of your preference, e.g
 docker run -d -p 9000:5000 bkblankdocker/certlint:latest
 ```
 
-**Open your browser to http://localhost:5000 (or whatever port you chose to use)**
+**4. Open your browser to http://localhost:5000 (or whatever port you chose to use)**
 
 
 ## Cleanup
 
-**Stop and remove the running certlint container
+**5. Stop and remove the running certlint container**
 Make sure you have saved all of the converted certificates/keys you want as the next step will destory the container and any files it created for you.
 ```
 docker rm -f certlint
 ```
 
-**Remove the certlint docker image from your machine** 
+**6. Remove the certlint docker image from your machine** 
 ```
 docker image rm bkblankdocker/certlint:latest
 ```
