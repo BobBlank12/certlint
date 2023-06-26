@@ -83,6 +83,7 @@ docker pull bkblankdocker/certlint:latest
 ```
 At this point, you can disconnect your network connections if you don't trust the container to "phone home" and steal any certificates/keys/passwords you provide.
 
+## Run CertLint
 **3. Run the container:**
 ```
 docker run -d -p 5000:5000 --name certlint bkblankdocker/certlint:latest
@@ -93,7 +94,7 @@ If port 5000 is in use on your host, choose another port of your preference, e.g
 docker run -d -p 9000:5000 bkblankdocker/certlint:latest
 ```
 
-**4. Open your browser to http://localhost:5000 (or whatever port you chose to use)**
+**4. Open your browser to http://localhost:5000**
 
 
 ## Cleanup
