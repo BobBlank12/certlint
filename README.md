@@ -82,6 +82,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
+CertLint is a project I built to improve/practice my skills in scripting, CI/CD, Docker and Kubernetes.  BY NO MEANS am I claiming/attempting or wanting to be a front-end developer. You can use the online version to "play with" or you can use it "offiline" to convert/validate your own certificates and keys by running it in a Docker container.
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
