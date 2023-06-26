@@ -34,7 +34,11 @@
   </section>
   <form action = "/success" method = "post" enctype="multipart/form-data">  
       <input type="file" name="file" />  
-      <input type = "submit" value="Upload">  
+      <input type = "submit" value="Upload">
+      <p></br></br></p>
+      <p>If your certificate file is password protected, like a p12 file, please enter it here:</p>
+      <label for="pwd">Password:</label>
+      <input type="password" id="pwd" name="pwd">
   </form>  
 </body>
 {% endblock %}
