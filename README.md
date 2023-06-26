@@ -1,14 +1,4 @@
-<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
 <a name="readme-top"></a>
-<!--
-*** Thanks for checking out the Best-README-Template. If you have a suggestion
-*** that would make this better, please fork the repo and create a pull request
-*** or simply open an issue with the tag "enhancement".
-*** Don't forget to give the project a star!
-*** Thanks again! Now go create something AMAZING! :D
--->
-
-
 
 <!-- PROJECT SHIELDS -->
 <!--
@@ -25,21 +15,17 @@
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
-
-
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
   <a href="https://github.com/BobBlank12/certlint">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="images/logo.png" alt="Logo" width="120" height="120">
   </a>
 
 <h3 align="center">CertLint</h3>
 
   <p align="center">
-    CertLint is a project I built to improve/practice my skills in scripting, CI/CD, Docker and Kubernetes.  BY NO MEANS am I claiming or attempting to be a front-end developer.
-    <br />
-    <a href="https://github.com/BobBlank12/certlint"><strong>Explore the docs »</strong></a>
+    CertLint is a tool to help you view/convert/validate your certificates and keys. It can be run online or completely offline in a Docker container.
     <br />
     <br />
     <a href="https://github.com/BobBlank12/certlint">View Demo</a>
