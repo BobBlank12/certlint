@@ -232,8 +232,6 @@ def convert_p7b_to_pem(filename):
     #
     # This is in 2 passes... to JUST get the node cert and not the ca certs
     #
-    # I should get the CA certs for the user out of the bundle as well... TODO.
-    #
     #openssl pkcs7 -print_certs -in certificate.p7b -out certificate.cer
     result1 = subprocess.call(["openssl", "pkcs7", "-print_certs", "-in", filename, "-out", filename + "-temp.pem"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=False, timeout=3)
     if result1 == 0:
@@ -259,6 +257,19 @@ def extract_ca_from_p7b(filename,session):
     return (found_ca) 
 
 # End of extract_ca_from_p7b
+
+def extract_ca_from_pem(filename,session):
+
+# Two step process... first to a P7B then extract the chain.
+# openssl crl2pkcs7 -nocrl -certfile node-and-cas.pem | openssl pkcs7 -print_certs -text
+    result = subprocess.call(["openssl", "crl2pkcs7", "-nocrl", "-certfile", filename, "-out", filename + "-temp.p7b"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=False, timeout=3)
+    result = subprocess.call(["openssl", "pkcs7", "-print_certs", "-in", filename + "-temp.p7b", "-out", filename + "-all-extracted-certs.pem"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=False, timeout=3)
+    found_ca = get_cas_from_pem_file(filename,session)
+    os.remove(filename + "-all-extracted-certs.pem")
+    os.remove(filename + "-temp.p7b")
+    return (found_ca) 
+
+# End of extract_ca_from_pem
 
 
 def get_cas_from_pem_file(filename,session):

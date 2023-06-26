@@ -87,6 +87,20 @@ def success():
                         f.filename+"-converted-to.pem:" : '<a href="'+getuploadfolder()+f.filename+'-converted-to.pem">'+f.filename+'-converted-to.pem</a>'
                     }
                 )
+
+            #Get the CAs out of the pem file
+            try:
+                found_ca = extract_ca_from_pem("website/" + getuploadfolder() + session['mysessionid'] + "/" + f.filename, session)
+            except Exception as e:
+                print("Error extracting all the certs from the PEM file {:}".format(e))
+            else:
+                if found_ca:
+                    print(f"\tI've exctracted the ca certs from {f.filename} and saved into {f.filename}-extraxted-ca-certs.pem file for you.")
+                    links.append(
+                        {
+                            f.filename+"-extraxted-ca-certs.pem:" : '<a href="'+getuploadfolder()+f.filename+'-extraxted-ca-certs.pem">'+f.filename+'-extraxted-ca-certs.pem</a>'
+                        }
+                    )
         # End if fileformat = pem
 
         if fileformat == "der":
