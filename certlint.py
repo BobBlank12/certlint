@@ -5,7 +5,7 @@ import subprocess
 def getuploadfolder():
     return "uploads/" 
 
-def determine_file_format(filename, fileformat, key_type):
+def determine_file_format(filename, fileformat, key_type, password):
     #filenames=["es01.p12","es01.der","es01.pkcs1.key","es01.pem","es01.p7b", "es01.pkcs8.key", "es01.pkcs8-encrypted.key"]
     print (f"Determining the file type of: {filename}")
 
@@ -13,44 +13,41 @@ def determine_file_format(filename, fileformat, key_type):
     # so P12 HAS to be last in this check.
 
     #Test for PEM format
-    #print (f"Testing PEM format...")
+    print (f"Testing PEM format...")
     result = subprocess.call(["openssl", "x509", "-inform", "pem", "-in", filename, "-text", "-noout"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=False, timeout=3)
     if result == 0:
         fileformat = "pem"
 
     #Test for P7B format
-    #print (f"Testing P7B format...")
+    print (f"Testing P7B format...")
     result = subprocess.call(["openssl", "pkcs7", "-in", filename, "-print_certs"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=False, timeout=3)
     if result == 0:
         fileformat = "p7b"
 
     #Test for DER format
-    #print (f"Testing DER format...")
-    result = subprocess.call(["openssl", "x509", "-inform", "DER", "-in", filename, "-text", "-noout"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=False, timeout=3)
+    print (f"Testing DER format...")
+    result = subprocess.call(["openssl", "x509", "-inform", "DER", "-in", filename, "-text", "-noout", "-passin", "pass:"+password], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=False, timeout=3)
     if result == 0:
         fileformat = "der"
 
     #Test to see if it is a key, not a cert (that has no password for the key)
-    #print (f"Testing if it is a key...")
+    print (f"Testing if it is a key...")
     result= subprocess.call(["openssl", "rsa", "-in", filename, "-check", "-passin", "pass:"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=False, timeout=3)
     if result == 0:
         fileformat = "key"
 
-    #Test for P12 (that has no password for the cert)
-    #print (f"Testing P12 format...")
-    result = subprocess.call(["openssl", "pkcs12", "-info", "-in", filename, "-nokeys", "-passin", "pass:"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=False, timeout=3)
-    if result == 0:
+    #Test for P12
+    print (f"Testing P12 format...")
+    result = subprocess.run(["openssl", "pkcs12", "-info", "-in", filename, "-nokeys", "-passin", "pass:"+password], shell=False, timeout=3, capture_output=True)
+    if result.returncode == 0:
         fileformat = "p12"
-
-    # Notes on keys...
-    #-----BEGIN PRIVATE KEY----- = pkcs8
-    #-----BEGIN ENCRYPTED PRIVATE KEY----- pkcs8 encrypted
-    #-----BEGIN RSA PRIVATE KEY----- = pkcs1
+    elif result.stderr.decode("utf-8").find("invalid password") != -1:
+        fileformat = "P12 with a bad password"
 
     # ??? Need to add a test for PFX?  If PFX doesn't store certs in DER format?
     #  JKS files?
 
-    print (f"\tIt appears you've given me a file that is in {fileformat} format.")
+    print (f"\tIt appears you've given me a file that is in format: {fileformat}")
 
     if fileformat == "key":
         with open(filename) as f:
@@ -208,14 +205,14 @@ def convert_pem_to_der(filename):
     return(result)
 # End of convert_pem_to_der
 
-def convert_p12_to_pem(filename):
+def convert_p12_to_pem(filename, password):
     #print (f"filename={filename}")
     #
     # This is in 2 passes... to JUST get the node cert and not the ca certs
     #
     # I should get the CA certs for the user out of the bundle as well... TODO.
     #
-    result1 = subprocess.call(["openssl", "pkcs12", "-in", filename, "-nodes", "-nokeys", "-out", filename + "-temp.pem", "-passin", "pass:"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=False, timeout=3)
+    result1 = subprocess.call(["openssl", "pkcs12", "-in", filename, "-nodes", "-nokeys", "-out", filename + "-temp.pem", "-passin", "pass:"+password], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=False, timeout=3)
     if result1 == 0:
         #Save JUST the node cert from the temp PEM file... if there happened to be a ca chain in the P12... for consistency
         result2 = subprocess.call(["openssl", "x509", "-in", filename + "-temp.pem", "-out", filename + "-converted-to.pem", "-passin", "pass:"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=False, timeout=3)
@@ -234,8 +231,6 @@ def convert_pem_to_pem(filename):
 def convert_p7b_to_pem(filename):
     #
     # This is in 2 passes... to JUST get the node cert and not the ca certs
-    #
-    # I should get the CA certs for the user out of the bundle as well... TODO.
     #
     #openssl pkcs7 -print_certs -in certificate.p7b -out certificate.cer
     result1 = subprocess.call(["openssl", "pkcs7", "-print_certs", "-in", filename, "-out", filename + "-temp.pem"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=False, timeout=3)
@@ -262,6 +257,19 @@ def extract_ca_from_p7b(filename,session):
     return (found_ca) 
 
 # End of extract_ca_from_p7b
+
+def extract_ca_from_pem(filename,session):
+
+# Two step process... first to a P7B then extract the chain.
+# openssl crl2pkcs7 -nocrl -certfile node-and-cas.pem | openssl pkcs7 -print_certs -text
+    result = subprocess.call(["openssl", "crl2pkcs7", "-nocrl", "-certfile", filename, "-out", filename + "-temp.p7b"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=False, timeout=3)
+    result = subprocess.call(["openssl", "pkcs7", "-print_certs", "-in", filename + "-temp.p7b", "-out", filename + "-all-extracted-certs.pem"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=False, timeout=3)
+    found_ca = get_cas_from_pem_file(filename,session)
+    os.remove(filename + "-all-extracted-certs.pem")
+    os.remove(filename + "-temp.p7b")
+    return (found_ca) 
+
+# End of extract_ca_from_pem
 
 
 def get_cas_from_pem_file(filename,session):
