@@ -82,9 +82,9 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 
 * [![Python][Python]][Python-url]
 * [![Flask][Flask]][Flask-url]
-* [![Vue][Vue.js]][Vue-url]
-* [![Angular][Angular.io]][Angular-url]
-* [![Svelte][Svelte.dev]][Svelte-url]
+* [![Docker][Docker][Docker-url]
+* [![Kubernetes][Kubernetes]][Kubernetes-url]
+* [![OpenSSL][OpenSSL]][OpenSSL-url]
 * [![Laravel][Laravel.com]][Laravel-url]
 * [![Bootstrap][Bootstrap.com]][Bootstrap-url]
 * [![JQuery][JQuery.com]][JQuery-url]
@@ -220,12 +220,12 @@ Project Link: [https://github.com/BobBlank12/certlint](https://github.com/BobBla
 [Flask-url]: https://flask.palletsprojects.com/
 [Python]: https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white
 [Python-url]: https://python.org/
-[Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
-[Vue-url]: https://vuejs.org/
-[Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
-[Angular-url]: https://angular.io/
-[Svelte.dev]: https://img.shields.io/badge/Svelte-4A4A55?style=for-the-badge&logo=svelte&logoColor=FF3E00
-[Svelte-url]: https://svelte.dev/
+[Docker]: https://img.shields.io/badge/Docker-#2496ED?style=for-the-badge&logo=docker&logoColor=white
+[Docker-url]: https://docker.com/
+[Kubernetes]: https://img.shields.io/badge/Kubernetes-DD0031?style=for-the-badge&logo=kubernetes&logoColor=white
+[Kubernetes-url]: https://kubernetes.io/
+[OpenSSL]: https://img.shields.io/badge/OpenSSL-#721412?style=for-the-badge&logo=openssl&logoColor=white
+[OpenSSL-url]: https://www.openssl.org/
 [Laravel.com]: https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white
 [Laravel-url]: https://laravel.com
 [Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
