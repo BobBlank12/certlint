@@ -25,7 +25,7 @@
   </a>
 
 <!-- <h3 align="center">CertLint</h3> -->
-
+  <br />
   <p align="center">
     CertLint is a tool to help you view/convert/validate your certificates and keys. It can be run online or completely offline in a Docker container.
     <br />
@@ -74,24 +74,18 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<!-- GETTING STARTED -->
-## Getting Started
-
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
 ### Prerequisites
 
-#To run CertLint offline using Docker:
+##To run CertLint offline using Docker:
 [Install Docker](https://docs.docker.com/get-docker/)
 
-#Pull the latest CertLint Docker image:
+# Pull the latest CertLint Docker image:
 ```
 docker pull bkblankdocker/certlint:latest
 ```
-#At this point, you can disconnect your network connections if you don't trust the container to "phone home" and steal any certificates/keys/passwords you provide.
+# At this point, you can disconnect your network connections if you don't trust the container to "phone home" and steal any certificates/keys/passwords you provide.
 
-#Run the container:
+# Run the container:
 ```
 docker run -d -p 5000:5000 bkblankdocker/certlint:latest
 ```
@@ -101,22 +95,22 @@ If port 5000 is in use on your host, choose another port of your preference, e.g
 docker run -d -p 9000:5000 bkblankdocker/certlint:latest
 ```
 
-#Open your browser to http://localhost:5000 (or whatever port you chose to use)
+# Open your browser to http://localhost:5000 (or whatever port you chose to use)
 
 
 ### Cleanup
 
-# Remove the certlint container
+# Stop the running certlint container
 Make sure you have saved all of the converted certificates/keys you want as the next step will destory the container and any files it created for you.
 ```
 docker rm -f certlint
 ```
-#Remove the certlint docker image from your machine 
+# Remove the certlint docker image from your machine 
 ```
 docker image rm bkblankdocker/certlint:latest
 ```
 
-#Re-enable your network interfaces if you disabled them above.
+# Re-enable your network interfaces if you disabled them above.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
