@@ -85,7 +85,7 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 * [![Docker][Docker]][Docker-url]
 * [![Kubernetes][Kubernetes]][Kubernetes-url]
 * [![OpenSSL][OpenSSL]][OpenSSL-url]
-* [![Laravel][Laravel.com]][Laravel-url]
+* [![Jenkins][Jenkins]][Jenkins-url]
 * [![Bootstrap][Bootstrap.com]][Bootstrap-url]
 * [![JQuery][JQuery.com]][JQuery-url]
 
@@ -226,8 +226,8 @@ Project Link: [https://github.com/BobBlank12/certlint](https://github.com/BobBla
 [Kubernetes-url]: https://kubernetes.io/
 [OpenSSL]: https://img.shields.io/badge/OpenSSL-721412?style=for-the-badge&logo=openssl&logoColor=white
 [OpenSSL-url]: https://www.openssl.org/
-[Laravel.com]: https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white
-[Laravel-url]: https://laravel.com
+[Jenkins]: https://img.shields.io/badge/Jenkins-#24939?style=for-the-badge&logo=jenkins&logoColor=white
+[Jenkins-url]: https://www.jenkins.io
 [Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
 [Bootstrap-url]: https://getbootstrap.com
 [JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
