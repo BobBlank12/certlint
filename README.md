@@ -76,12 +76,11 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Prerequisites
+## Prerequisites
 
-**Run CertLint offline using Docker:**
-[First install Docker](https://docs.docker.com/get-docker/)
+**Install Docker on your host:** [Install Docker](https://docs.docker.com/get-docker/)
 
-**Pull the latest CertLint Docker image:**
+**Pull the latest CertLint Docker image from the Docker repository:**
 ```
 docker pull bkblankdocker/certlint:latest
 ```
@@ -100,7 +99,7 @@ docker run -d -p 9000:5000 bkblankdocker/certlint:latest
 **Open your browser to http://localhost:5000 (or whatever port you chose to use)**
 
 
-### Cleanup
+## Cleanup
 
 **Stop and remove the running certlint container
 Make sure you have saved all of the converted certificates/keys you want as the next step will destory the container and any files it created for you.
