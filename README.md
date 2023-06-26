@@ -37,15 +37,16 @@
   <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#about-the-project">About The Project</a>
-      <a href="#prerequisites">Prerequisites</a>
-      <a href="#run-certlint">Run CertLint</a>
-      <a href="#clean-up">Clean Up</a>
-  <li><a href="#usage">Usage</a></li>
-  <li><a href="#roadmap">Roadmap</a></li> 
-  <li><a href="#contributing">Contributing</a></li>
-      <a href="#built-with">Built With</a>
-    <li><a href="#license">License</a></li>
+      <li><a href="#about-the-project">About The Project</a></li>
+      <li><a href="#prerequisites">Prerequisites</a></li>
+      <li><a href="#run-certlint">Run CertLint</a></li>
+      <li><a href="#clean-up">Clean Up</a></li>
+      <li><a href="#usage">Usage</a></li>
+      <li><a href="#roadmap">Roadmap</a></li> 
+      <li><a href="#contributing">Contributing</a></li>
+      <li><a href="#built-with">Built With</a></li>
+      <li><a href="#license">License</a></li>
+    </li>
   </ol>
 </details>
 
