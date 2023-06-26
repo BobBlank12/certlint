@@ -82,7 +82,7 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 
 * [![Python][Python]][Python-url]
 * [![Flask][Flask]][Flask-url]
-* [![Docker][Docker][Docker-url]
+* [![Docker][Docker]][Docker-url]
 * [![Kubernetes][Kubernetes]][Kubernetes-url]
 * [![OpenSSL][OpenSSL]][OpenSSL-url]
 * [![Laravel][Laravel.com]][Laravel-url]
