@@ -82,17 +82,16 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-Run CertLint offline in Docker:
+#To run CertLint offline using Docker:
 [Install Docker](https://docs.docker.com/get-docker/)
 
-Pull the latest CertLint Docker image:
+#Pull the latest CertLint Docker image:
 ```
 docker pull bkblankdocker/certlint:latest
 ```
+#At this point, you can disconnect your network connections if you don't trust the container to "phone home" and steal any certificates/keys/passwords you provide.
 
-At this point, you can disconnect your network connections if you don't trust the container to "phone home" and steal any certificates/keys/passwords you provide.
-
-Run the container:
+#Run the container:
 ```
 docker run -d -p 5000:5000 bkblankdocker/certlint:latest
 ```
@@ -102,24 +101,22 @@ If port 5000 is in use on your host, choose another port of your preference, e.g
 docker run -d -p 9000:5000 bkblankdocker/certlint:latest
 ```
 
-Open your browser to http://localhost:5000 (or whatever port you chose to use)
+#Open your browser to http://localhost:5000 (or whatever port you chose to use)
 
 
-### Installation
+### Cleanup
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/BobBlank12/certlint.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
+# Remove the certlint container
+Make sure you have saved all of the converted certificates/keys you want as the next step will destory the container and any files it created for you.
+```
+docker rm -f certlint
+```
+#Remove the certlint docker image from your machine 
+```
+docker image rm bkblankdocker/certlint:latest
+```
+
+#Re-enable your network interfaces if you disabled them above.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -135,10 +132,13 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
+- [ ] Allow users to create a new Root and Intermediate CA to sign new certificates
+    - [ ] Create/Sign certificates with the CAs from above
+- [ ] Validate a private/public key are a valid pair
+- [ ] Convert keys to different formats (pkcs1-pkcs8-encrypted/unencrypted)
+- [ ] Given a CA chain, validate a certificate can be verified using that chain
+- [ ] Include support for PFX and JKS files
+- [ ] "Online version" - connect to a service and display the cert/chain in use, build a truststore from the chain  
 
 See the [open issues](https://github.com/BobBlank12/certlint/issues) for a full list of proposed features (and known issues).
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
