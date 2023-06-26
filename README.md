@@ -220,11 +220,11 @@ Project Link: [https://github.com/BobBlank12/certlint](https://github.com/BobBla
 [Flask-url]: https://flask.palletsprojects.com/
 [Python]: https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white
 [Python-url]: https://python.org/
-[Docker]: https://img.shields.io/badge/Docker-#2496ED?style=for-the-badge&logo=docker&logoColor=white
+[Docker]: https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white
 [Docker-url]: https://docker.com/
 [Kubernetes]: https://img.shields.io/badge/Kubernetes-DD0031?style=for-the-badge&logo=kubernetes&logoColor=white
 [Kubernetes-url]: https://kubernetes.io/
-[OpenSSL]: https://img.shields.io/badge/OpenSSL-#721412?style=for-the-badge&logo=openssl&logoColor=white
+[OpenSSL]: https://img.shields.io/badge/OpenSSL-721412?style=for-the-badge&logo=openssl&logoColor=white
 [OpenSSL-url]: https://www.openssl.org/
 [Laravel.com]: https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white
 [Laravel-url]: https://laravel.com
