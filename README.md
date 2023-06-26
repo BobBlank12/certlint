@@ -34,10 +34,10 @@
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">project_title</h3>
+<h3 align="center">CertLint</h3>
 
   <p align="center">
-    project_description
+    CertLint is a project I built to improve/practice my skills in scripting, CI/CD, Docker and Kubernetes.  BY NO MEANS am I claiming or attempting to be a front-end developer.
     <br />
     <a href="https://github.com/BobBlank12/certlint"><strong>Explore the docs »</strong></a>
     <br />
