@@ -85,6 +85,25 @@ To get a local copy up and running follow these simple example steps.
 Run CertLint offline in Docker:
 [Install Docker](https://docs.docker.com/get-docker/)
 
+Pull the latest CertLint Docker image:
+```
+docker pull bkblankdocker/certlint:latest
+```
+
+At this point, you can disconnect your network connections if you don't trust the container to "phone home" and steal any certificates/keys/passwords you provide.
+
+Run the container:
+```
+docker run -d -p 5000:5000 certlint:latest
+```
+
+If port 5000 is in use on your host, choose another port of your preference, e.g. use port 9000
+```
+docker run -d -p 9000:5000 certlint:latest
+```
+
+Open your browser to http://localhost:5000 (or whatever port you chose to use)
+
 
 ### Installation
 
