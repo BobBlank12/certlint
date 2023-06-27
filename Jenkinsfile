@@ -33,7 +33,21 @@ pipeline {
         echo "branch = ${BRANCH_NAME}"
       }
     }
-    stage("test") {
+
+    stage ('Add Latest tag when branch is main') {
+        when {
+            branch 'main'
+        }
+        steps {
+          echo 'Add the Latest tag when on the main branch pipeline'
+          script {
+            sh 'docker tag ${IMAGE}:${VERSION} ${DOCKERREGISTRY}/${IMAGE}:latest'
+            sh 'docker image push ${DOCKERREGISTRY}/${IMAGE}:latest'
+          }
+        }
+    }
+
+    stage("Test") {
       steps {
         echo 'testing the application...'
       }
