@@ -1,7 +1,7 @@
 pipeline {
   environment {
     DOCKERREGISTRY = "bkblankdocker/certlint"
-    DOCKERCREDS = 'dockerhub_id'
+    DOCKERCREDS = credentials('dockerhub_id')
   }
   agent any
   stages {
@@ -28,8 +28,19 @@ pipeline {
           sh 'docker build --tag ${IMAGE}:${VERSION} .'
           sh 'docker tag ${IMAGE}:${VERSION} ${DOCKERREGISTRY}/${IMAGE}:${VERSION}'
 
-          //docker image push bkblankdocker/<imagename>:1.0
+          sh 'echo ${DOCKERCREDS_PSW} | docker login -u ${DOCKERCREDS_USR} --password-stdin'
+          sh 'docker image push ${DOCKERREGISTRY}/${IMAGE}:${VERSION}'
 
+          //withCredentials([file(credentialsId: "${PROJECT}", variable: 'GC_KEY')]) {
+          //  sh('gcloud auth activate-service-account --key-file=${GC_KEY}')
+            //sh('gcloud auth configure-docker ${LOCATION}-docker.pkg.dev')
+            //sh('gcloud artifacts docker images delete --quiet ${LOCATION}-docker.pkg.dev/${PROJECT}/${REPOSITORY}/${IMAGE}:${VERSION} --delete-tags || exit 0')
+            //sh('docker push ${LOCATION}-docker.pkg.dev/${PROJECT}/${REPOSITORY}/${IMAGE}:${VERSION}')
+
+            //    '''
+            //    def app = docker.build("docker-image")
+            //    app.push("latest")
+            //}
 
                 //        docker.withRegistry('', 'dockerhub_id') {
                 //          def customImage = docker.build("${IMAGE}:${VERSION}")
