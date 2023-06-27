@@ -25,13 +25,13 @@ pipeline {
         //sh 'docker stop ${IMAGE}:${VERSION} || exit 0'
         //sh 'docker rm ${IMAGE}:${VERSION} || exit 0'
         //sh 'docker build --tag ${IMAGE}:${VERSION} .'
-        script {
-          docker.withRegistry('', 'dockerhub_id') {
-            def customImage = docker.build("${IMAGE}:${VERSION}")
-            //customImage.push()
-            //customImage.push('latest')
-          }
+
+        docker.withRegistry('', 'dockerhub_id') {
+          def customImage = docker.build("${IMAGE}:${VERSION}")
+          //customImage.push()
+          //customImage.push('latest')
         }
+
       }
     }
     stage("test") {
