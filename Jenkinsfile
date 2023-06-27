@@ -22,16 +22,20 @@ pipeline {
       steps {
         echo 'Building the application...'
         // I had a problem here if my cluster was not 1.26, the uploads folder under website was getting deleted.
-        //sh 'docker stop ${IMAGE}:${VERSION} || exit 0'
-        //sh 'docker rm ${IMAGE}:${VERSION} || exit 0'
-        //sh 'docker build --tag ${IMAGE}:${VERSION} .'
+        script {
+          //sh 'docker stop ${IMAGE}:${VERSION} || exit 0'
+          //sh 'docker rm ${IMAGE}:${VERSION} || exit 0'
+          sh 'docker build --tag ${IMAGE}:${VERSION} .'
+          sh 'docker tag ${IMAGE}:${VERSION} ${DOCKERREGISTRY}/${IMAGE}:${VERSION}'
 
-        docker.withRegistry('', 'dockerhub_id') {
-          def customImage = docker.build("${IMAGE}:${VERSION}")
-          //customImage.push()
-          //customImage.push('latest')
+          //docker image push bkblankdocker/<imagename>:1.0
+
+
+                //        docker.withRegistry('', 'dockerhub_id') {
+                //          def customImage = docker.build("${IMAGE}:${VERSION}")
+                //customImage.push()
+                //customImage.push('latest')
         }
-
       }
     }
     stage("test") {
