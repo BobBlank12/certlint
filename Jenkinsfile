@@ -1,4 +1,8 @@
 pipeline {
+  environment {
+    DOCKERREGISTRY = "bkblankdocker/certlint"
+    DOCKERCREDS = 'dockerhub_id'
+  }
   agent any
   stages {
     stage("Read the properties file") {
@@ -14,16 +18,20 @@ pipeline {
         }
       }
     }
-    stage("Build the Docker image") {
+    stage("Build the Docker image and push to Docker Hub") {
       steps {
         echo 'Building the application...'
         // I had a problem here if my cluster was not 1.26, the uploads folder under website was getting deleted.
-        //sh 'pwd'
-        //sh 'ls -la website'
-        //sh 'ls -la website/uploads'
-        sh 'docker stop ${IMAGE}:${VERSION} || exit 0'
-        sh 'docker rm ${IMAGE}:${VERSION} || exit 0'
-        sh 'docker build --tag ${IMAGE}:${VERSION} .'
+        //sh 'docker stop ${IMAGE}:${VERSION} || exit 0'
+        sh 'docker rm -f ${IMAGE}:${VERSION} || exit 0'
+        //sh 'docker build --tag ${IMAGE}:${VERSION} .'
+        script {
+          docker.withRegistry('', 'dockerhub_id') {
+            def customImage = docker.build("${IMAGE}:${VERSION}")
+            //customImage.push()
+            //customImage.push('latest')
+          }
+        }
       }
     }
     stage("test") {
