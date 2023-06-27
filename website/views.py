@@ -22,6 +22,18 @@ def home():
         print(f"mysessionid already exists:{session['mysessionid']}")
     return render_template("index.html")
 
+@views.route('/createcachain', methods=['GET','POST'])
+def createcachain():  
+    return render_template("createcachain.html")
+
+@views.route('/createcert', methods=['GET','POST'])
+def createcert():  
+    return render_template("createcert.html")
+
+@views.route('/validatekeypair', methods=['GET','POST'])
+def validatekeypair():  
+    return render_template("validatekeypair.html")
+
 # Link to download "converted-to-pem file"
 @views.route("/"+getuploadfolder()+"<filename>-converted-to.pem", methods=['GET', 'POST'])
 def getFilePem(filename):
