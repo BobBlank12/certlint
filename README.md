@@ -52,15 +52,15 @@
 ## About The Project
 CertLint is a project I built to improve/practice my skills in scripting, CI/CD, Docker and Kubernetes.  **BY NO MEANS** am I claiming/attempting or wanting to be a front-end developer. You can use the online version to "play with" or you can use it "offiline" to convert/validate your own certificates and keys by running it in a Docker container.
 
-[product-screenshot1](https://github.com/BobBlank12/certlint/)
+[![product-screenshot1][product-screenshot1]](https://github.com/BobBlank12/certlint/)
 
 <br></br>
 
-[product-screenshot2](https://github.com/BobBlank12/certlint/)
+[![product-screenshot2][product-screenshot2]](https://github.com/BobBlank12/certlint/)
 
 <br></br>
 
-[product-screenshot3](https://github.com/BobBlank12/certlint/)
+[![product-screenshot3][product-screenshot3]](https://github.com/BobBlank12/certlint/)
 
 <br></br>
 
