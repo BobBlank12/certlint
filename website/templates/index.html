@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
 %}
-<h2 align="center">Upload your certificate file/bundle/key</h1>
+<h2 align="center">Upload your certificate file, bundle, or key</h1>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,16 +29,22 @@
 </head>
 <body>
   <section>
-    <h2>Section 1</h2>
-    <p>This is where instructions will go for users...</p>
+    <p>This form will:</p>
+    <p>     1. accept a certificate or key file that you upload</p>
+    <p>     2. attempt to determine the format that the cert/key is in</p>
+    <p>     3. convert the cert to other formats automatically</p>
+    <p>     4. attempt to extract any CA certificates (the chain) from the certficate file</p>
+    <p>     5. future - convert the key to other key formats</p>
   </section>
-  <form action = "/success" method = "post" enctype="multipart/form-data">  
-      <input type="file" name="file" />  
-      <input type = "submit" value="Upload">
-      <p></br></br></p>
-      <p>If your certificate file is password protected, like a p12 file, please enter it here:</p>
-      <label for="pwd">Password:</label>
-      <input type="password" id="pwd" name="pwd">
-  </form>  
+  <form action = "/success" method = "post" enctype="multipart/form-data">
+    <p>If your certificate file is password protected, like a p12 file, please enter it here:</p>
+    <label for="pwd">Password:</label>
+    <input type="password" id="pwd" name="pwd">
+    </br></br>
+    <input type="file" name="file" />
+    </br></br>  
+    <input type = "submit" value="Upload your certificate or key">
+  </form> 
 </body>
+
 {% endblock %}

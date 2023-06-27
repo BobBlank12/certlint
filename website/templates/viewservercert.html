@@ -1,0 +1,37 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
+%}
+<h2 align="center">View the certificate and chain of a server</h1>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Add some basic styling */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    
+    header {
+      background-color: #f2f2f2;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    section {
+      padding: 20px;
+      margin: 20px;
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <section>
+    <h2>Note, this feature requires network access...</h2>
+    <p>Enter the Host name or IP address and port number of the service...</p>
+    <p>e.g. mywebserver.mydomain.com:443</p>
+  </section>
+</body>
+{% endblock %}

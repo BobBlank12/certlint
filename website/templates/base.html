@@ -19,6 +19,11 @@
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="/">
+        <!-- Add logo with size of 90*80 -->
+        <img src="/static/logo.png" width="90" height="80" alt="">
+    </a>
+
       <button
         class="navbar-toggler"
         type="button"
@@ -29,10 +34,12 @@
       </button>
       <div class="collapse navbar-collapse" id="navbar">
         <div class="navbar-nav">
-          <a class="nav-item nav-link" id="home" href="/">Upload a certificate or key file</a>
-          <a class="nav-item nav-link" id="createcachain" href="/createcachain">Create a Root and Intermediate Certificate Chain</a>
-          <a class="nav-item nav-link" id="createcert" href="/createcert">Create a Certificate</a>
+          <a class="nav-item nav-link" id="home" href="/">View and convert a certificate or key</a>
+          <a class="nav-item nav-link" id="createcachain" href="/createcachain">Create root and intermediate certificates</a>
+          <a class="nav-item nav-link" id="createcert" href="/createcert">Create a certificate</a>
           <a class="nav-item nav-link" id="validatekeypair" href="/validatekeypair">Validate a key pair</a>
+          <a class="nav-item nav-link" id="verifycertwithca" href="/verifycertwithca">Verify a certificate with a ca</a>
+          <a class="nav-item nav-link" id="viewservercert" href="/viewservercert">View a live server certificate</a>
         </div>
       </div>
     </nav>

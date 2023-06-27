@@ -34,6 +34,14 @@ def createcert():
 def validatekeypair():  
     return render_template("validatekeypair.html")
 
+@views.route('/verifycertwithca', methods=['GET','POST'])
+def verifycertwithca():  
+    return render_template("verifycertwithca.html")
+
+@views.route('/viewservercert', methods=['GET','POST'])
+def viewservercert():  
+    return render_template("viewservercert.html")
+
 # Link to download "converted-to-pem file"
 @views.route("/"+getuploadfolder()+"<filename>-converted-to.pem", methods=['GET', 'POST'])
 def getFilePem(filename):
@@ -64,6 +72,10 @@ def success():
             os.makedirs('website/'+ getuploadfolder() + session['mysessionid'], exist_ok=True)
 
         f = request.files['file']
+
+        if not f:
+            return render_template("index.html")
+
         print ("saving file: website/" + getuploadfolder() + session['mysessionid'] + "/" + secure_filename(f.filename))
         f.save("website/" + getuploadfolder() + session['mysessionid'] + "/" + secure_filename(f.filename))
         f.close
