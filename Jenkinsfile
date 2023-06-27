@@ -24,29 +24,13 @@ pipeline {
         // I had a problem here if my cluster was not 1.26, the uploads folder under website was getting deleted.
         script {
           //sh 'docker stop ${IMAGE}:${VERSION} || exit 0'
-          //sh 'docker rm ${IMAGE}:${VERSION} || exit 0'
+          sh 'docker rm -f ${IMAGE}:${VERSION} || exit 0'
           sh 'docker build --tag ${IMAGE}:${VERSION} .'
           sh 'docker tag ${IMAGE}:${VERSION} ${DOCKERREGISTRY}/${IMAGE}:${VERSION}'
-
           sh 'echo ${DOCKERCREDS_PSW} | docker login -u ${DOCKERCREDS_USR} --password-stdin'
           sh 'docker image push ${DOCKERREGISTRY}/${IMAGE}:${VERSION}'
-
-          //withCredentials([file(credentialsId: "${GCP_PROJECT}", variable: 'GC_KEY')]) {
-          //  sh('gcloud auth activate-service-account --key-file=${GC_KEY}')
-            //sh('gcloud auth configure-docker ${GCP_LOCATION}-docker.pkg.dev')
-            //sh('gcloud artifacts docker images delete --quiet ${GCP_LOCATION}-docker.pkg.dev/${GCP_PROJECT}/${GCP_REPOSITORY}/${IMAGE}:${VERSION} --delete-tags || exit 0')
-            //sh('docker push ${GCP_LOCATION}-docker.pkg.dev/${GCP_PROJECT}/${GCP_REPOSITORY}/${IMAGE}:${VERSION}')
-
-            //    '''
-            //    def app = docker.build("docker-image")
-            //    app.push("latest")
-            //}
-
-                //        docker.withRegistry('', 'dockerhub_id') {
-                //          def customImage = docker.build("${IMAGE}:${VERSION}")
-                //customImage.push()
-                //customImage.push('latest')
         }
+        echo branch = ${BRANCH_NAME}
       }
     }
     stage("test") {
