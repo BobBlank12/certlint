@@ -1,4 +1,4 @@
-from flask import request, Blueprint, render_template, request, flash, url_for, send_file, session
+from flask import request, Blueprint, render_template, flash, url_for, send_file, session
 from werkzeug.utils import secure_filename
 import os
 import sys
