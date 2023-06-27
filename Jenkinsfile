@@ -22,8 +22,8 @@ pipeline {
       steps {
         echo 'Building the application...'
         // I had a problem here if my cluster was not 1.26, the uploads folder under website was getting deleted.
-        sh 'docker stop ${IMAGE}:${VERSION} || exit 0'
-        sh 'docker rm ${IMAGE}:${VERSION} || exit 0'
+        //sh 'docker stop ${IMAGE}:${VERSION} || exit 0'
+        //sh 'docker rm ${IMAGE}:${VERSION} || exit 0'
         //sh 'docker build --tag ${IMAGE}:${VERSION} .'
         script {
           docker.withRegistry('', 'dockerhub_id') {
