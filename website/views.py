@@ -1,4 +1,4 @@
-from flask import request, Blueprint, render_template, request, flash, url_for, send_file, session
+from flask import request, Blueprint, render_template, flash, url_for, send_file, session
 from werkzeug.utils import secure_filename
 import os
 import sys
@@ -21,6 +21,26 @@ def home():
     else:
         print(f"mysessionid already exists:{session['mysessionid']}")
     return render_template("index.html")
+
+@views.route('/createcachain', methods=['GET','POST'])
+def createcachain():  
+    return render_template("createcachain.html")
+
+@views.route('/createcert', methods=['GET','POST'])
+def createcert():  
+    return render_template("createcert.html")
+
+@views.route('/validatekeypair', methods=['GET','POST'])
+def validatekeypair():  
+    return render_template("validatekeypair.html")
+
+@views.route('/verifycertwithca', methods=['GET','POST'])
+def verifycertwithca():  
+    return render_template("verifycertwithca.html")
+
+@views.route('/viewservercert', methods=['GET','POST'])
+def viewservercert():  
+    return render_template("viewservercert.html")
 
 # Link to download "converted-to-pem file"
 @views.route("/"+getuploadfolder()+"<filename>-converted-to.pem", methods=['GET', 'POST'])
@@ -52,6 +72,10 @@ def success():
             os.makedirs('website/'+ getuploadfolder() + session['mysessionid'], exist_ok=True)
 
         f = request.files['file']
+
+        if not f:
+            return render_template("index.html")
+
         print ("saving file: website/" + getuploadfolder() + session['mysessionid'] + "/" + secure_filename(f.filename))
         f.save("website/" + getuploadfolder() + session['mysessionid'] + "/" + secure_filename(f.filename))
         f.close
