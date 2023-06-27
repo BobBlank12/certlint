@@ -1,12 +1,12 @@
 VERSION=1.0.2
-
-LOCATION=us-central1
-PROJECT=mygcp-385621
+IMAGE=certlint
 
 # Cluster will get the git branch name appended to it 
 # during the deployment phase of the jenkins pipeline
 # e.g. certlint-dev; certlint-main
-CLUSTER=certlint
+GCP_LOCATION=us-central1
+GCP_PROJECT=mygcp-385621
+GCP_REPOSITORY=webapp
+GCP_CLUSTER=certlint
 
-REPOSITORY=webapp
-IMAGE=certlint
+DOCKERREGISTRY=bkblankdocker
