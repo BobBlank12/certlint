@@ -30,7 +30,7 @@ pipeline {
           sh 'echo ${DOCKERCREDS_PSW} | docker login -u ${DOCKERCREDS_USR} --password-stdin'
           sh 'docker image push ${DOCKERREGISTRY}/${IMAGE}:${VERSION}'
         }
-        echo branch = ${BRANCH_NAME}
+        echo "branch = ${BRANCH_NAME}"
       }
     }
     stage("test") {
