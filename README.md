@@ -64,6 +64,15 @@ CertLint is a project I built to improve/practice my skills in scripting, CI/CD,
 
 <br></br>
 
+[![product-screenshot4][product-screenshot4]](https://github.com/BobBlank12/certlint/)
+
+<br></br>
+
+[![product-screenshot5][product-screenshot5]](https://github.com/BobBlank12/certlint/)
+
+<br></br>
+
+
 <p align="right">(<a href="#readme-top">back to top</a>)</br></p>
 
 ## Prerequisites
@@ -123,7 +132,7 @@ I may put some examples here... but I hope the tool is self-explanatory.
 ## Roadmap
 
 - [ ] Decide if I will actually host this online (e.g. GKE)  for people to use or just support running it in containers locally.
-- [ ] Allow users to create a new Root and Intermediate CA to sign new certificates
+- [x] Allow users to create a new Root and Intermediate CA to sign new certificates
     - [ ] Create/Sign certificates with the CAs from above
 - [ ] Validate a private/public key are a valid pair
 - [ ] Convert keys to different formats (pkcs1-pkcs8-encrypted/unencrypted)
@@ -183,6 +192,8 @@ Distributed under the MIT License. See [LICENSE](https://github.com/BobBlank12/c
 [product-screenshot1]: images/screenshot1.png
 [product-screenshot2]: images/screenshot2.png
 [product-screenshot3]: images/screenshot3.png
+[product-screenshot4]: images/screenshot4.png
+[product-screenshot5]: images/screenshot5.png
 [Flask]: https://img.shields.io/badge/-Flask-000000?style=for-the-badge&logo=flask&logoColor=white
 [Flask-url]: https://flask.palletsprojects.com/
 [Python]: https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white
