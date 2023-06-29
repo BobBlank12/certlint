@@ -52,22 +52,30 @@ def createcachain():
         if not os.path.exists('website/'+ getuploadfolder() + session['mysessionid'] + "/"):
             os.makedirs('website/'+ getuploadfolder() + session['mysessionid'], exist_ok=True)
 
-        links = []
+        links1 = []
+        links2 = []
 
         try:
-            create_root_pair("website/" + getuploadfolder() + session['mysessionid'] + "/" + root_file_name, root_c, root_st, root_l, root_o, root_ou, root_cn)
+            create_cachain("website/" + getuploadfolder() + session['mysessionid'] + "/" + root_file_name, root_c, root_st, root_l, root_o, root_ou, root_cn, "website/" + getuploadfolder() + session['mysessionid'] + "/" + intermediate_file_name, intermediate_c, intermediate_st, intermediate_l, intermediate_o, intermediate_ou, intermediate_cn)
         except Exception as e:
-            print("Error creating root pair {:}".format(e))
+            print("Error creating ca chain {:}".format(e))
         else:
             print(f"\tI've created your ROOT CA {root_file_name}.key and {root_file_name}.pem files for you.")
-            links.append(
+            links1.append(
                 {
                     root_file_name+".key:" : '<a href="'+getuploadfolder()+ root_file_name+'.key">'+root_file_name+'.key</a>',
                     root_file_name+".pem:" : '<a href="'+getuploadfolder()+ root_file_name+'.pem">'+root_file_name+'.pem</a>'
                 }
             )
-
-        return render_template("cachaincreated.html", links=links)
+            print(f"\tI've created your INTERMEDIATE CA {intermediate_file_name}.key and {intermediate_file_name}.pem files for you.")
+            links2.append(
+                {
+                    intermediate_file_name+".key:" : '<a href="'+getuploadfolder()+ intermediate_file_name+'.key">'+intermediate_file_name+'.key</a>',
+                    intermediate_file_name+".pem:" : '<a href="'+getuploadfolder()+ intermediate_file_name+'.pem">'+intermediate_file_name+'.pem</a>'
+                }
+            )
+            
+        return render_template("cachaincreated.html", links1=links1, links2=links2)
     
 # End of createcachain()
 
@@ -96,6 +104,16 @@ def getRootCAFileKey(root_file_name):
 @views.route("/"+getuploadfolder()+"<root_file_name>.pem", methods=['GET', 'POST'])
 def getRootCAFilePem(root_file_name):
     return send_file(getuploadfolder()+session['mysessionid']+"/"+root_file_name+".pem", as_attachment=True)
+
+# Link to download "user created intermediate ca key file"
+@views.route("/"+getuploadfolder()+"<intermediate_file_name>.key", methods=['GET', 'POST'])
+def getIntermediateCAFileKey(intermediate_file_name):
+    return send_file(getuploadfolder()+session['mysessionid']+"/"+intermediate_file_name+".key", as_attachment=True)
+
+# Link to download "user created intermediate ca pem file"
+@views.route("/"+getuploadfolder()+"<intermediate_file_name>.pem", methods=['GET', 'POST'])
+def getIntermediateCAFilePem(intermediate_file_name):
+    return send_file(getuploadfolder()+session['mysessionid']+"/"+intermediate_file_name+".pem", as_attachment=True)
 
 # Link to download "converted-to-pem file"
 @views.route("/"+getuploadfolder()+"<filename>-converted-to.pem", methods=['GET', 'POST'])

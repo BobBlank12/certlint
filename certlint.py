@@ -5,21 +5,77 @@ import subprocess
 def getuploadfolder():
     return "uploads/" 
 
-def create_root_pair(root_file_name,root_c,root_st,root_l,root_o,root_ou,root_cn):
+def create_cachain(root_file_name,root_c,root_st,root_l,root_o,root_ou,root_cn,intermediate_file_name,intermediate_c,intermediate_st,intermediate_l,intermediate_o,intermediate_ou,intermediate_cn):
 
 #        openssl req -x509 \
 #            -sha256 -days 3560 \
 #            -nodes \
-#            -newkey rsa:2048 \
+#            -newkey rsa:4096 \
 #            -subj "/CN=ROOT-CA/C=US/ST=Minnesota/L=Bloomington/O=TEST-CA/OU=CERTS" \
 #            -keyout rootCA.key -out rootCA.crt 
 
     subj = "/CN="+root_cn+"/C="+root_c+"/ST="+root_st+"/L="+root_l+"/O="+root_o+"/OU="+root_ou
-    result = subprocess.run(["openssl", "req", "-x509", "-sha256", "-days", "3560", "-nodes", "-newkey", "rsa:2048", "-subj", subj, "-keyout", root_file_name+".key", "-out", root_file_name+".pem"], capture_output=True, shell=False, timeout=20)
+    result = subprocess.run(["openssl", "req", "-x509", "-sha256", "-days", "3560", "-nodes", "-newkey", "rsa:4096", "-subj", subj, "-keyout", root_file_name+".key", "-out", root_file_name+".pem"], capture_output=True, shell=False, timeout=20)
     #print (result.stdout.decode("utf-8"))
     #print (result.stderr.decode("utf-8"))
-    return (result.returncode) 
 
+    #create_intermediate_private_key
+    # openssl genrsa -out intermediateCA.key 4096
+    result = subprocess.run(["openssl", "genrsa", "-out", intermediate_file_name+".key", "4096"], capture_output=True, shell=False, timeout=20)
+    print (result.stdout.decode("utf-8"))
+    print (result.stderr.decode("utf-8"))
+
+    #create_intermediate_csr.conf
+    csr_conf = open(intermediate_file_name+"_csr.conf","w")
+    csr_conf.write("[ req ]"+"\n")
+    csr_conf.write("default_bits = 4096"+"\n")
+    csr_conf.write("prompt = no"+"\n")
+    csr_conf.write("default_md = sha256"+"\n")
+    csr_conf.write("req_extensions = req_ext"+"\n")
+    csr_conf.write("distinguished_name = dn"+"\n")
+    csr_conf.write("[ dn ]"+"\n")
+    csr_conf.write("C = " + intermediate_c+"\n")
+    csr_conf.write("ST = " + intermediate_st+"\n")
+    csr_conf.write("L = " + intermediate_l+"\n")
+    csr_conf.write("O = " + intermediate_o+"\n")
+    csr_conf.write("OU = " + intermediate_ou+"\n")
+    csr_conf.write("CN = " + intermediate_cn+"\n")
+    csr_conf.write("[ req_ext ]"+"\n")
+    csr_conf.write("subjectAltName = @alt_names"+"\n")
+    csr_conf.write("[ alt_names ]"+"\n")
+    csr_conf.write("DNS.1 = " + intermediate_cn+"\n")
+    csr_conf.close()
+
+    #create_intermediate_csr
+    #openssl req -new -key intermediateCA.key -out intermediateCA.csr -config intermediateCA_csr.conf
+    result = subprocess.run(["openssl", "req", "-new", "-key", intermediate_file_name+".key", "-out", intermediate_file_name+".csr", "-config", intermediate_file_name+"_csr.conf"], capture_output=True, shell=False, timeout=3)
+    print (result.stdout.decode("utf-8"))
+    print (result.stderr.decode("utf-8"))
+
+    #create_intermediate_cert.conf
+    csr_conf = open(intermediate_file_name+"_cert.conf","w")
+    csr_conf.write("authorityKeyIdentifier=keyid,issuer"+"\n")
+    csr_conf.write("basicConstraints=critical,CA:TRUE"+"\n")
+    csr_conf.write("keyUsage = critical, digitalSignature, cRLSign, keyCertSign"+"\n")
+    csr_conf.write("subjectAltName = @alt_names"+"\n")
+    csr_conf.write("[alt_names]"+"\n")
+    csr_conf.write("DNS.1 = "+intermediate_cn+"\n")
+    csr_conf.close()
+
+    #create_intermediate_cert
+    # openssl x509 -req \
+    #  -in intermediateCA.csr \
+    #  -CA rootCA.crt -CAkey rootCA.key \
+    #  -CAcreateserial -out intermediateCA.crt \
+    #  -days 3649 \
+    #  -sha256 -extfile intermediateCA_cert.conf   
+    result = subprocess.run(["openssl", "x509", "-req", "-in", intermediate_file_name+".csr", "-out", intermediate_file_name+".pem", "-extfile", intermediate_file_name+"_cert.conf","-CA", root_file_name+".pem", "-CAkey", root_file_name+".key", "-CAcreateserial", "-days", "3649", "-sha256"], capture_output=True, shell=False, timeout=3)
+    print (result.stdout.decode("utf-8"))
+    print (result.stderr.decode("utf-8"))
+
+    return (result.returncode)
+
+# End of create_cachain
 
 def determine_file_format(filename, fileformat, key_type, password):
     #filenames=["es01.p12","es01.der","es01.pkcs1.key","es01.pem","es01.p7b", "es01.pkcs8.key", "es01.pkcs8-encrypted.key"]
