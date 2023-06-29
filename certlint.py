@@ -5,6 +5,22 @@ import subprocess
 def getuploadfolder():
     return "uploads/" 
 
+def create_root_pair(root_file_name,root_c,root_st,root_l,root_o,root_ou,root_cn):
+
+#        openssl req -x509 \
+#            -sha256 -days 3560 \
+#            -nodes \
+#            -newkey rsa:2048 \
+#            -subj "/CN=ROOT-CA/C=US/ST=Minnesota/L=Bloomington/O=TEST-CA/OU=CERTS" \
+#            -keyout rootCA.key -out rootCA.crt 
+
+    subj = "/CN="+root_cn+"/C="+root_c+"/ST="+root_st+"/L="+root_l+"/O="+root_o+"/OU="+root_ou
+    result = subprocess.run(["openssl", "req", "-x509", "-sha256", "-days", "3560", "-nodes", "-newkey", "rsa:2048", "-subj", subj, "-keyout", root_file_name+".key", "-out", root_file_name+".pem"], capture_output=True, shell=False, timeout=20)
+    #print (result.stdout.decode("utf-8"))
+    #print (result.stderr.decode("utf-8"))
+    return (result.returncode) 
+
+
 def determine_file_format(filename, fileformat, key_type, password):
     #filenames=["es01.p12","es01.der","es01.pkcs1.key","es01.pem","es01.p7b", "es01.pkcs8.key", "es01.pkcs8-encrypted.key"]
     print (f"Determining the file type of: {filename}")

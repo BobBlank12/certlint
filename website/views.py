@@ -22,9 +22,54 @@ def home():
         print(f"mysessionid already exists:{session['mysessionid']}")
     return render_template("index.html")
 
+@views.route('/getcadetails', methods=['GET', 'POST'])
+def getcadetails():
+    return render_template("getcadetails.html")
+
 @views.route('/createcachain', methods=['GET','POST'])
-def createcachain():  
-    return render_template("createcachain.html")
+def createcachain():
+    if request.method == 'POST':
+        root_file_name = request.form.get("root_file_name")
+        root_c = request.form.get("root_c")
+        root_st = request.form.get("root_st")
+        root_l = request.form.get("root_l")
+        root_o = request.form.get("root_o")
+        root_ou = request.form.get("root_ou")
+        root_cn = request.form.get("root_cn")
+        intermediate_file_name = request.form.get("intermediate_file_name")
+        intermediate_c = request.form.get("intermediate_c")
+        intermediate_st = request.form.get("intermediate_st")
+        intermediate_l = request.form.get("intermediate_l")
+        intermediate_o = request.form.get("intermediate_o")
+        intermediate_ou = request.form.get("intermediate_ou")
+        intermediate_cn = request.form.get("intermediate_cn")
+
+        # Cleanup any former posts/files
+        oldfiles = glob.glob('website/'+ getuploadfolder() + session['mysessionid'] + "/*")
+        for f in oldfiles:
+            os.remove(f)
+
+        if not os.path.exists('website/'+ getuploadfolder() + session['mysessionid'] + "/"):
+            os.makedirs('website/'+ getuploadfolder() + session['mysessionid'], exist_ok=True)
+
+        links = []
+
+        try:
+            create_root_pair("website/" + getuploadfolder() + session['mysessionid'] + "/" + root_file_name, root_c, root_st, root_l, root_o, root_ou, root_cn)
+        except Exception as e:
+            print("Error creating root pair {:}".format(e))
+        else:
+            print(f"\tI've created your ROOT CA {root_file_name}.key and {root_file_name}.pem files for you.")
+            links.append(
+                {
+                    root_file_name+".key:" : '<a href="'+getuploadfolder()+ root_file_name+'.key">'+root_file_name+'.key</a>',
+                    root_file_name+".pem:" : '<a href="'+getuploadfolder()+ root_file_name+'.pem">'+root_file_name+'.pem</a>'
+                }
+            )
+
+        return render_template("cachaincreated.html", links=links)
+    
+# End of createcachain()
 
 @views.route('/createcert', methods=['GET','POST'])
 def createcert():  
@@ -41,6 +86,16 @@ def verifycertwithca():
 @views.route('/viewservercert', methods=['GET','POST'])
 def viewservercert():  
     return render_template("viewservercert.html")
+
+# Link to download "user created root ca key file"
+@views.route("/"+getuploadfolder()+"<root_file_name>.key", methods=['GET', 'POST'])
+def getRootCAFileKey(root_file_name):
+    return send_file(getuploadfolder()+session['mysessionid']+"/"+root_file_name+".key", as_attachment=True)
+
+# Link to download "user created root ca pem file"
+@views.route("/"+getuploadfolder()+"<root_file_name>.pem", methods=['GET', 'POST'])
+def getRootCAFilePem(root_file_name):
+    return send_file(getuploadfolder()+session['mysessionid']+"/"+root_file_name+".pem", as_attachment=True)
 
 # Link to download "converted-to-pem file"
 @views.route("/"+getuploadfolder()+"<filename>-converted-to.pem", methods=['GET', 'POST'])

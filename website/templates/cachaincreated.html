@@ -1,0 +1,25 @@
+{% extends "base.html" %} {% block title %}Analysis and Conversions{% endblock %} {% block content %}
+<html>
+<body>
+	<table style="width:100%">
+		<tbody>
+			<tr><td><br/></td></tr>
+			<tr><th>Here are your CA files.  Download them and keep them in a safe place to use later in signing your own certificates.</th></tr>
+		</tbody>
+	</table>
+	{% for dict in links %}
+		<table style="width:100%">
+			<tbody>
+				{% for key, value in dict.items() %}
+					<tr>
+						<td width="35%" align="left"> {{ key }} </td>
+						<td width="65%" align="left"> {{ value | safe }} </td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% endfor %}
+</body>
+</html>
+{% endblock %}
+	

@@ -1,0 +1,99 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content %}
+<br></br>
+<h2 align="center">Create Root and Intermediate Certificates</h1>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Add some basic styling */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    
+    header {
+      background-color: #f2f2f2;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    section {
+      padding: 20px;
+      margin: 20px;
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <section>
+    <p>On this page, you can create your own ROOT and INTERMEDIATE (sometimes called ISSUING) Certificate Authority Certs to SIGN/ISSUE the certs you will use on your servers.</p>
+    <form action="/createcachain"  method = "post" enctype="multipart/form-data">
+      <div style="display: flex;">
+        <div style="flex: 1;">
+          <br>
+          <label for="root_file_name">What file name should I use for your ROOT certificate and key? I'll append .pem and .key to the name for you:</label><br>
+          <input type="text" id="root_file_name" name="root_file_name" value="my-root_ca" required><br>
+          
+          <br>
+          <label for="root_c">Root country:</label><br>
+          <input type="text" id="root_c" name="root_c" value="US" required><br>
+          
+          <br>
+          <label for="root_st">Root state:</label><br>
+          <input type="text" id="root_st" name="root_st" value="Minnesota" required><br>
+          
+          <br>
+          <label for="root_l">Root city:</label><br>
+          <input type="text" id="root_l" name="root_l" value="Bloomington" required><br>
+          
+          <br>
+          <label for="root_o">Root organization:</label><br>
+          <input type="text" id="root_o" name="root_o" value="CA-certs" required><br>
+          
+          <br>
+          <label for="root_ou">Root organizational unit:</label><br>
+          <input type="text" id="root_ou" name="root_ou" value="Certs" required><br>
+          
+          <br>
+          <label for="root_cn">Root subject name:</label><br>
+          <input type="text" id="root_cn" name="root_cn" value="My-Root-CA" required><br>
+        </div>
+        <div style="flex: 1;">
+          <br>
+          <label for="intermediate_file_name">What file name should I use for your INTERMEDIATE key? I'll append .key to the name for you:</label><br>
+          <input type="text" id="intermediate_file_name" name="intermediate_file_name" value="my-intermediate_ca" required><br>
+          
+          <br>
+          <label for="intermediate_c">Intermediate country:</label><br>
+          <input type="text" id="intermediate_c" name="intermediate_c" value="US" required><br>
+          
+          <br>
+          <label for="intermediate_st">Intermediate state:</label><br>
+          <input type="text" id="intermediate_st" name="intermediate_st" value="Minnesota" required><br>
+          
+          <br>
+          <label for="intermediate_l">Intermediate city:</label><br>
+          <input type="text" id="intermediate_l" name="intermediate_l" value="Bloomington" required><br>
+          
+          <br>
+          <label for="intermediate_o">Intermediate organization:</label><br>
+          <input type="text" id="intermediate_o" name="intermediate_o" value="CA-certs" required><br>
+          
+          <br>
+          <label for="intermediate_ou">Intermediate organizational unit:</label><br>
+          <input type="text" id="intermediate_ou" name="intermediate_ou" value="Certs" required><br>
+          
+          <br>
+          <label for="intermediate_cn">Intermediate subject:</label><br>
+          <input type="text" id="intermediate_cn" name="intermediate_cn" value="My-Intermediate-CA" required><br>
+        </div>
+      </div>
+      <br>
+      <input type="submit" value="Submit">
+    </form>
+  </section>
+</body>
+{% endblock %}
