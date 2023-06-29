@@ -1,4 +1,4 @@
-VERSION=1.0.3
+VERSION=1.0.4
 IMAGE=certlint
 
 # Cluster will get the git branch name appended to it 
