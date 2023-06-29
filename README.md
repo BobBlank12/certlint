@@ -132,7 +132,7 @@ I may put some examples here... but I hope the tool is self-explanatory.
 ## Roadmap
 
 - [ ] Decide if I will actually host this online (e.g. GKE)  for people to use or just support running it in containers locally.
-- [*] Allow users to create a new Root and Intermediate CA to sign new certificates
+- [x] Allow users to create a new Root and Intermediate CA to sign new certificates
     - [ ] Create/Sign certificates with the CAs from above
 - [ ] Validate a private/public key are a valid pair
 - [ ] Convert keys to different formats (pkcs1-pkcs8-encrypted/unencrypted)
