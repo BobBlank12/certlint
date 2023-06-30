@@ -56,16 +56,25 @@ def createcert():
         cert_dns = request.form.get("cert_dns")
 
         intermediate_ca_key = request.files['intermediate_ca_key']
+        if not intermediate_ca_key:
+            return render_template("getcertdetails.html")
         intermediate_ca_key.save("website/" + getuploadfolder() + session['mysessionid'] + "/" + intermediate_ca_key.filename)
-        intermediate_ca_pem.close
+        intermediate_ca_key.close
 
         intermediate_ca_pem = request.files['intermediate_ca_pem']
+        if not intermediate_ca_pem:
+            return render_template("getcertdetails.html")
         intermediate_ca_pem.save("website/" + getuploadfolder() + session['mysessionid'] + "/" + intermediate_ca_pem.filename)
         intermediate_ca_pem.close
 
         root_ca_pem = request.files['root_ca_pem']
+        if not root_ca_pem:
+            return render_template("getcertdetails.html")
         root_ca_pem.save("website/" + getuploadfolder() + session['mysessionid'] + "/" + root_ca_pem.filename)
         root_ca_pem.close
+
+
+# I should add a FLASH message here if the user doesn't select any CA files... right now it just reposts.
 
         try:
             create_certificate("website/" + getuploadfolder() + session['mysessionid'] + "/" + cert_file_name, cert_c, cert_st, cert_l, cert_o, cert_ou, cert_cn, cert_ip, cert_dns, "website/" + getuploadfolder() + session['mysessionid'] + "/" + intermediate_ca_pem.filename, "website/" + getuploadfolder() + session['mysessionid'] + "/" + intermediate_ca_key.filename,"website/" + getuploadfolder() + session['mysessionid'] + "/" + root_ca_pem.filename)
