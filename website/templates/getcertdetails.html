@@ -1,0 +1,57 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content%}
+<div class="container">
+  <br></br>
+  <h2 class="text-center">Create a Certificate Signed By Your Own CA</h2>
+  <br></br>
+  <div class="row">
+    <div class="col">
+      <p class="column-name">Enter the details for the certificate you would like to create and sign:</p>
+      <br>
+      <label for="cert_c">Certificate country:</label><br>
+      <input type="text" id="cert_c" name="cert_c" value="US" required><br>
+      
+      <br>
+      <label for="cert_st">Certificate state:</label><br>
+      <input type="text" id="cert_st" name="cert_st" value="Minnesota" required><br>
+      
+      <br>
+      <label for="cert_l">Certificate city:</label><br>
+      <input type="text" id="cert_l" name="cert_l" value="Bloomington" required><br>
+      
+      <br>
+      <label for="cert_o">Certificate organization:</label><br>
+      <input type="text" id="cert_o" name="cert_o" value="Certs" required><br>
+      
+      <br>
+      <label for="cert_ou">Certificate organizational unit:</label><br>
+      <input type="text" id="cert_ou" name="cert_ou" value="CertsOU" required><br>
+      
+      <br>
+      <label for="cert_cn">Certificate subject name:</label><br>
+      <input type="text" id="cert_cn" name="cert_cn" value="My-Server-Name" required><br>
+    </div>
+
+    <div class="col">
+      <p class="column-name">Choose the CA key and certificate you will use to sign your new certificate. <strong>Usually this would be your intermediate certificate authority.</strong></p>
+      <br><br><br>
+      <label for="intermediate_ca_key">Select the CA key file to use to sign your certificate:</label><br>
+      <input type="file" id="intermediate_ca_key" name="Intermediate CA key file" />
+      <br><br><br>
+      <label for="intermediate_ca_pem">Select the CA cert (pem) file to use to sign your certificate:</label><br>
+      <input type="file" id="intermediate_ca_pem" name="Intermediate CA pem file" />
+    </div>
+
+    <div class="col">
+      <p class="column-name">If you have a <strong>root CA</strong> as well (which signed your intermediate CA), please upload it's certificate (pem file) here.</p>
+      <br><br><br>
+      <input type="file" name="ROOT CA pem file" />
+    </div>
+  </div>
+
+  <div class="row justify-content-end">
+    <div class="col-3">
+      <input type = "submit" value="Create My Certificate">
+    </div>
+  </div>
+</div>
+{% endblock %}

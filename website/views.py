@@ -22,6 +22,10 @@ def home():
         print(f"mysessionid already exists:{session['mysessionid']}")
     return render_template("index.html")
 
+@views.route('/getcertdetails', methods=['GET', 'POST'])
+def getcertdetails():
+    return render_template("getcertdetails.html")
+
 @views.route('/getcadetails', methods=['GET', 'POST'])
 def getcadetails():
     return render_template("getcadetails.html")
