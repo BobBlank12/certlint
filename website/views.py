@@ -30,6 +30,23 @@ def getcertdetails():
 def getcadetails():
     return render_template("getcadetails.html")
 
+@views.route('/createcert', methods=['GET','POST'])
+def createcert():
+    if request.method == 'POST':
+        # Cleanup any former posts/files
+        oldfiles = glob.glob('website/'+ getuploadfolder() + session['mysessionid'] + "/*")
+        for f in oldfiles:
+            os.remove(f)
+
+        if not os.path.exists('website/'+ getuploadfolder() + session['mysessionid'] + "/"):
+            os.makedirs('website/'+ getuploadfolder() + session['mysessionid'], exist_ok=True)
+
+        links1 = []
+        links2 = []
+
+        #return render_template("certcreated.html", links1=links1, links2=links2)
+        return ("<h1>This is where the cert and possible gets created...</h1>")
+    
 @views.route('/createcachain', methods=['GET','POST'])
 def createcachain():
     if request.method == 'POST':
@@ -82,10 +99,6 @@ def createcachain():
         return render_template("cachaincreated.html", links1=links1, links2=links2)
     
 # End of createcachain()
-
-@views.route('/createcert', methods=['GET','POST'])
-def createcert():  
-    return render_template("createcert.html")
 
 @views.route('/validatekeypair', methods=['GET','POST'])
 def validatekeypair():  

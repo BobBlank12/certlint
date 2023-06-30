@@ -1,4 +1,6 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content%}
+<body>
+<form action="/createcert"  method = "post" enctype="multipart/form-data">
 <div class="container">
   <br></br>
   <h2 class="text-center">Create a Certificate Signed By Your Own CA</h2>
@@ -54,4 +56,6 @@
     </div>
   </div>
 </div>
+</form>
+</body>
 {% endblock %}
