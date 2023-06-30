@@ -50,28 +50,28 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-CertLint is a project I built to improve/practice my skills in scripting, CI/CD, Docker and Kubernetes.  **BY NO MEANS** am I claiming/attempting or wanting to be a front-end developer. You can use the online version to "play with" or you can use it "offiline" to convert/validate your own certificates and keys by running it in a Docker container.
+CertLint is a project I built to improve/practice my skills in scripting, CI/CD, Docker and Kubernetes.  **BY NO MEANS** am I claiming/attempting or wanting to be a front-end developer. You can use it "offiline" to convert/validate your own certificates and keys by running it in a Docker container.
+
+I WOULD NOT recommend running this as a web service outside of your localhost.
+1.  It uses the built in Flask web server which shouldn't be used for prod.
+2.  It does a lot of file handling of certs and keys... and you should never upload your key to a web server
+3.  It does not sanitize user input so the risk of being hacked is high.
+4.  Ironically, I didn't run it with https (but you could use it to create a key/cert for itself.  :-) 
 
 [![product-screenshot1][product-screenshot1]](https://github.com/BobBlank12/certlint/)
-
 <br></br>
-
 [![product-screenshot2][product-screenshot2]](https://github.com/BobBlank12/certlint/)
-
 <br></br>
-
 [![product-screenshot3][product-screenshot3]](https://github.com/BobBlank12/certlint/)
-
 <br></br>
-
 [![product-screenshot4][product-screenshot4]](https://github.com/BobBlank12/certlint/)
-
 <br></br>
-
 [![product-screenshot5][product-screenshot5]](https://github.com/BobBlank12/certlint/)
-
 <br></br>
-
+[![product-screenshot6][product-screenshot6]](https://github.com/BobBlank12/certlint/)
+<br></br>
+[![product-screenshot7][product-screenshot7]](https://github.com/BobBlank12/certlint/)
+<br></br>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</br></p>
 
@@ -133,7 +133,7 @@ I may put some examples here... but I hope the tool is self-explanatory.
 
 - [ ] Decide if I will actually host this online (e.g. GKE)  for people to use or just support running it in containers locally.
 - [x] Allow users to create a new Root and Intermediate CA to sign new certificates
-    - [ ] Create/Sign certificates with the CAs from above
+    - [x] Create/Sign certificates with the CAs from above
 - [ ] Validate a private/public key are a valid pair
 - [ ] Convert keys to different formats (pkcs1-pkcs8-encrypted/unencrypted)
 - [ ] Given a CA chain, validate a certificate can be verified using that chain
@@ -194,6 +194,8 @@ Distributed under the MIT License. See [LICENSE](https://github.com/BobBlank12/c
 [product-screenshot3]: images/screenshot3.png
 [product-screenshot4]: images/screenshot4.png
 [product-screenshot5]: images/screenshot5.png
+[product-screenshot6]: images/screenshot6.png
+[product-screenshot7]: images/screenshot7.png
 [Flask]: https://img.shields.io/badge/-Flask-000000?style=for-the-badge&logo=flask&logoColor=white
 [Flask-url]: https://flask.palletsprojects.com/
 [Python]: https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white

@@ -5,6 +5,72 @@ import subprocess
 def getuploadfolder():
     return "uploads/" 
 
+def create_certificate(cert_file_name,cert_c,cert_st,cert_l,cert_o,cert_ou,cert_cn,cert_ip,cert_dns,intermediate_ca_pem,intermediate_ca_key,root_ca_pem):
+
+    #create_server_private_key
+    #openssl genrsa -out $1.key 2048
+    result = subprocess.run(["openssl", "genrsa", "-out", cert_file_name+".key", "2048"], capture_output=True, shell=False, timeout=20)
+    print (result.stdout.decode("utf-8"))
+    print (result.stderr.decode("utf-8"))
+
+    #create_intermediate_csr.conf
+    csr_conf = open(cert_file_name+"_csr.conf","w")
+    csr_conf.write("[ req ]"+"\n")
+    csr_conf.write("default_bits = 2048"+"\n")
+    csr_conf.write("prompt = no"+"\n")
+    csr_conf.write("default_md = sha256"+"\n")
+    csr_conf.write("req_extensions = req_ext"+"\n")
+    csr_conf.write("distinguished_name = dn"+"\n")
+    csr_conf.write("[ dn ]"+"\n")
+    csr_conf.write("C = " + cert_c+"\n")
+    csr_conf.write("ST = " + cert_st+"\n")
+    csr_conf.write("L = " + cert_l+"\n")
+    csr_conf.write("O = " + cert_o+"\n")
+    csr_conf.write("OU = " + cert_ou+"\n")
+    csr_conf.write("CN = " + cert_cn+"\n")
+    csr_conf.write("[ req_ext ]"+"\n")
+    csr_conf.write("subjectAltName = @alt_names"+"\n")
+    csr_conf.write("[ alt_names ]"+"\n")
+    csr_conf.write("DNS.1 = " + cert_cn+"\n")
+    csr_conf.write("DNS.2 = " + cert_dns+"\n")
+    csr_conf.write("IP.1 = " + cert_ip+"\n")
+    csr_conf.close()
+
+    #create_server_csr
+    #openssl req -new -key $1.key -out $1.csr -config $1_csr.conf
+    result = subprocess.run(["openssl", "req", "-new", "-key", cert_file_name+".key", "-out", cert_file_name+".csr", "-config", cert_file_name+"_csr.conf"], capture_output=True, shell=False, timeout=3)
+    print (result.stdout.decode("utf-8"))
+    print (result.stderr.decode("utf-8"))
+
+    #create_server_cert.conf
+    csr_conf = open(cert_file_name+"_cert.conf","w")
+    csr_conf.write("authorityKeyIdentifier=keyid,issuer"+"\n")
+    csr_conf.write("basicConstraints=CA:FALSE"+"\n")
+    csr_conf.write("keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment"+"\n")
+    csr_conf.write("subjectAltName = @alt_names"+"\n")
+    csr_conf.write("[alt_names]"+"\n")
+    csr_conf.write("DNS.1 = "+cert_cn+"\n")
+    csr_conf.write("DNS.2 = "+cert_dns+"\n")
+    csr_conf.write("IP.1 = "+cert_ip+"\n")
+    csr_conf.close()
+
+    #create_server_cert()
+    #openssl x509 -req \
+    #    -in $1.csr \
+    #    -CA intermediateCA.crt -CAkey intermediateCA.key \
+    #    -CAcreateserial -out $1.pem \
+    #    -days 730 \
+    #    -sha256 -extfile $1_cert.conf
+
+    result = subprocess.run(["openssl", "x509", "-req", "-in", cert_file_name+".csr", "-out", cert_file_name+".pem", "-extfile", cert_file_name+"_cert.conf","-CA", intermediate_ca_pem, "-CAkey", intermediate_ca_key, "-CAcreateserial", "-days", "730", "-sha256"], capture_output=True, shell=False, timeout=3)
+    print (result.stdout.decode("utf-8"))
+    print (result.stderr.decode("utf-8"))
+
+    return (result.returncode)
+
+# End of create_certificate
+
+
 def create_cachain(root_file_name,root_c,root_st,root_l,root_o,root_ou,root_cn,intermediate_file_name,intermediate_c,intermediate_st,intermediate_l,intermediate_o,intermediate_ou,intermediate_cn):
 
 #        openssl req -x509 \

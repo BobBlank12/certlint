@@ -14,8 +14,6 @@
       href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
       crossorigin="anonymous"
     />
-
-    <title>{% block title %}Home{% endblock %}</title>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -36,7 +34,7 @@
         <div class="navbar-nav">
           <a class="nav-item nav-link" id="home" href="/">View and convert a certificate or key</a>
           <a class="nav-item nav-link" id="getcadetails" href="/getcadetails">Create root and intermediate certificates</a>
-          <a class="nav-item nav-link" id="createcert" href="/createcert">Create a certificate</a>
+          <a class="nav-item nav-link" id="createcert" href="/getcertdetails">Create a certificate</a>
           <a class="nav-item nav-link" id="validatekeypair" href="/validatekeypair">Validate a key pair</a>
           <a class="nav-item nav-link" id="verifycertwithca" href="/verifycertwithca">Verify a certificate with a ca</a>
           <a class="nav-item nav-link" id="viewservercert" href="/viewservercert">View a live server certificate</a>

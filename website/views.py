@@ -22,10 +22,76 @@ def home():
         print(f"mysessionid already exists:{session['mysessionid']}")
     return render_template("index.html")
 
+@views.route('/getcertdetails', methods=['GET', 'POST'])
+def getcertdetails():
+    return render_template("getcertdetails.html")
+
 @views.route('/getcadetails', methods=['GET', 'POST'])
 def getcadetails():
     return render_template("getcadetails.html")
 
+@views.route('/createcert', methods=['GET','POST'])
+def createcert():
+    if request.method == 'POST':
+        # Cleanup any former posts/files
+        oldfiles = glob.glob('website/'+ getuploadfolder() + session['mysessionid'] + "/*")
+        for f in oldfiles:
+            os.remove(f)
+
+        if not os.path.exists('website/'+ getuploadfolder() + session['mysessionid'] + "/"):
+            os.makedirs('website/'+ getuploadfolder() + session['mysessionid'], exist_ok=True)
+
+        links1 = []
+        #links 2 will be used for the CA chain file(s)
+        links2 = []
+
+        cert_file_name = request.form.get("cert_file_name")
+        cert_c = request.form.get("cert_c")
+        cert_st = request.form.get("cert_st")
+        cert_l = request.form.get("cert_l")
+        cert_o = request.form.get("cert_o")
+        cert_ou = request.form.get("cert_ou")
+        cert_cn = request.form.get("cert_cn")
+        cert_ip = request.form.get("cert_ip")
+        cert_dns = request.form.get("cert_dns")
+
+        intermediate_ca_key = request.files['intermediate_ca_key']
+        if not intermediate_ca_key:
+            return render_template("getcertdetails.html")
+        intermediate_ca_key.save("website/" + getuploadfolder() + session['mysessionid'] + "/" + intermediate_ca_key.filename)
+        intermediate_ca_key.close
+
+        intermediate_ca_pem = request.files['intermediate_ca_pem']
+        if not intermediate_ca_pem:
+            return render_template("getcertdetails.html")
+        intermediate_ca_pem.save("website/" + getuploadfolder() + session['mysessionid'] + "/" + intermediate_ca_pem.filename)
+        intermediate_ca_pem.close
+
+        root_ca_pem = request.files['root_ca_pem']
+        if not root_ca_pem:
+            return render_template("getcertdetails.html")
+        root_ca_pem.save("website/" + getuploadfolder() + session['mysessionid'] + "/" + root_ca_pem.filename)
+        root_ca_pem.close
+
+
+# I should add a FLASH message here if the user doesn't select any CA files... right now it just reposts.
+
+        try:
+            create_certificate("website/" + getuploadfolder() + session['mysessionid'] + "/" + cert_file_name, cert_c, cert_st, cert_l, cert_o, cert_ou, cert_cn, cert_ip, cert_dns, "website/" + getuploadfolder() + session['mysessionid'] + "/" + intermediate_ca_pem.filename, "website/" + getuploadfolder() + session['mysessionid'] + "/" + intermediate_ca_key.filename,"website/" + getuploadfolder() + session['mysessionid'] + "/" + root_ca_pem.filename)
+        except Exception as e:
+            print("Error creating certificate {:}".format(e))
+        else:
+            print(f"\tI've created your certificate {cert_file_name}.key and {cert_file_name}.pem files for you.")
+            links1.append(
+                {
+                    cert_file_name+".key:" : '<a href="'+getuploadfolder()+ cert_file_name+'.key">'+cert_file_name+'.key</a>',
+                    cert_file_name+".pem:" : '<a href="'+getuploadfolder()+ cert_file_name+'.pem">'+cert_file_name+'.pem</a>'
+                }
+            )
+
+        return render_template("certcreated.html", links1=links1)
+       
+    
 @views.route('/createcachain', methods=['GET','POST'])
 def createcachain():
     if request.method == 'POST':
@@ -79,10 +145,6 @@ def createcachain():
     
 # End of createcachain()
 
-@views.route('/createcert', methods=['GET','POST'])
-def createcert():  
-    return render_template("createcert.html")
-
 @views.route('/validatekeypair', methods=['GET','POST'])
 def validatekeypair():  
     return render_template("validatekeypair.html")
@@ -114,6 +176,16 @@ def getIntermediateCAFileKey(intermediate_file_name):
 @views.route("/"+getuploadfolder()+"<intermediate_file_name>.pem", methods=['GET', 'POST'])
 def getIntermediateCAFilePem(intermediate_file_name):
     return send_file(getuploadfolder()+session['mysessionid']+"/"+intermediate_file_name+".pem", as_attachment=True)
+
+# Link to download "user created certificate key file"
+@views.route("/"+getuploadfolder()+"<cert_file_name>.key", methods=['GET', 'POST'])
+def getCertFileKey(cert_file_name):
+    return send_file(getuploadfolder()+session['mysessionid']+"/"+cert_file_name+".key", as_attachment=True)
+
+# Link to download "user created certificate pem file"
+@views.route("/"+getuploadfolder()+"<cert_file_name>.pem", methods=['GET', 'POST'])
+def getCertFilePem(cert_file_name):
+    return send_file(getuploadfolder()+session['mysessionid']+"/"+cert_file_name+".pem", as_attachment=True)
 
 # Link to download "converted-to-pem file"
 @views.route("/"+getuploadfolder()+"<filename>-converted-to.pem", methods=['GET', 'POST'])
