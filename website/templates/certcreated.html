@@ -4,31 +4,11 @@
 	<table style="width:100%">
 		<tbody>
 			<tr><td><br/></td></tr>
-			<tr><th>Here are your ROOT CA files.</th></tr>
-			<tr><th>Download them and keep them in a safe place to use later for signing a new intermediate CA.</th></tr>
+			<tr><th>Here are your certficate files.</th></tr>
+			<tr><th>Download them and keep them in a safe place.</th></tr>
 		</tbody>
 	</table>
 	{% for dict in links1 %}
-		<table style="width:100%">
-			<tbody>
-				{% for key, value in dict.items() %}
-					<tr>
-						<td width="35%" align="left"> {{ key }} </td>
-						<td width="65%" align="left"> {{ value | safe }} </td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-	{% endfor %}
-	<br></br>
-	<table style="width:100%">
-		<tbody>
-			<tr><td><br/></td></tr>
-			<tr><th>Here are your INTERMEDIATE CA files.</th></tr>
-			<tr><th>Download them and keep them in a safe place to use later in signing your own certificates.</th></tr>
-		</tbody>
-	</table>
-	{% for dict in links2 %}
 		<table style="width:100%">
 			<tbody>
 				{% for key, value in dict.items() %}

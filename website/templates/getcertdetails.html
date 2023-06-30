@@ -9,6 +9,10 @@
     <div class="col">
       <p class="column-name">Enter the details for the certificate you would like to create and sign:</p>
       <br>
+      <label for="cert_file_name">What file name should I use for your certificate file? I'll append .pem and .key to the name for you:</label><br>
+      <input type="text" id="cert_file_name" name="cert_file_name" value="my-Server-Name" required><br>
+
+      <br>
       <label for="cert_c">Certificate country:</label><br>
       <input type="text" id="cert_c" name="cert_c" value="US" required><br>
       
@@ -31,22 +35,31 @@
       <br>
       <label for="cert_cn">Certificate subject name:</label><br>
       <input type="text" id="cert_cn" name="cert_cn" value="My-Server-Name" required><br>
+            
+      <br>
+      <label for="cert_ip">IP Address:</label><br>
+      <input type="text" id="cert_ip" name="cert_ip" value="127.0.0.1" required><br>
+            
+      <br>
+      <label for="cert_dns">DNS Name:</label><br>
+      <input type="text" id="cert_dns" name="cert_dns" value="localhost" required><br>
     </div>
 
     <div class="col">
       <p class="column-name">Choose the CA key and certificate you will use to sign your new certificate. <strong>Usually this would be your intermediate certificate authority.</strong></p>
       <br><br><br>
       <label for="intermediate_ca_key">Select the CA key file to use to sign your certificate:</label><br>
-      <input type="file" id="intermediate_ca_key" name="Intermediate CA key file" />
+      <input type="file" id="intermediate_ca_key" name="intermediate_ca_key" />
       <br><br><br>
       <label for="intermediate_ca_pem">Select the CA cert (pem) file to use to sign your certificate:</label><br>
-      <input type="file" id="intermediate_ca_pem" name="Intermediate CA pem file" />
+      <input type="file" id="intermediate_ca_pem" name="intermediate_ca_pem" />
     </div>
 
     <div class="col">
       <p class="column-name">If you have a <strong>root CA</strong> as well (which signed your intermediate CA), please upload it's certificate (pem file) here.</p>
       <br><br><br>
-      <input type="file" name="ROOT CA pem file" />
+      <label for="root_ca_pem">Select the Root (pem) file that signed your Intermediate CA:</label><br>
+      <input type="file" id="root_ca_pem" name="root_ca_pem" />
     </div>
   </div>
 
