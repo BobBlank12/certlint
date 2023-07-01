@@ -13,7 +13,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/BobBlank12/certlint">
-    <img src="https://raw.githubusercontent.com/BobBlank12/certlint/blob/dev/images/logo.png" alt="Logo" width="120" height="120">
+    <img src="https://github.com/BobBlank12/certlint/blob/dev/images/logo.png" alt="Logo" width="120" height="120">
   </a>
 
 <!-- <h3 align="center">CertLint</h3> -->
